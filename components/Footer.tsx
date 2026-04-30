@@ -47,8 +47,7 @@ export default function Footer() {
 
           <FooterCol title="Shop">
             <FooterLink href="/">All sabers</FooterLink>
-            <FooterLink href="/collections/originals">Originals</FooterLink>
-            <FooterLink href="/collections/replicas">Replicas</FooterLink>
+            <FooterLink href="/collections/originals">Sabers</FooterLink>
             <FooterLink href="/collections/bundles">Bundles</FooterLink>
             <FooterLink href="/collections/accessories">Accessories</FooterLink>
           </FooterCol>
@@ -63,7 +62,7 @@ export default function Footer() {
 
           <FooterCol title="Brand">
             <FooterLink href="/pages/brand">Our story</FooterLink>
-            <FooterLink href="/pages/reviews">Reviews</FooterLink>
+            <FooterLink href="/products/obi-se#reviews">Reviews</FooterLink>
             <FooterLink href="/blogs/news">Journal</FooterLink>
             <FooterLink href="/pages/ambassador">Ambassador program</FooterLink>
           </FooterCol>

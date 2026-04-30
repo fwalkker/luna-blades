@@ -20,13 +20,13 @@ const TABS: { key: TabKey; label: string }[] = [
 
 // Quantity tiers shown on the PDP. The discount/free-shipping labels are
 // promotional copy — for them to actually apply at checkout, configure matching
-// Shopify automatic discounts (Discounts → Create automatic discount → "Buy X get Y").
+// Shopify automatic discounts (Discounts → Create automatic discount → "Amount off products").
 // Keep these in sync with whatever's set up in Shopify admin.
 const QTY_TIERS = [
-  { qty: 1, sublabel: "Saber", discountPct: 0, freeShipping: false },
-  { qty: 2, sublabel: "Sabers", discountPct: 5, freeShipping: true },
-  { qty: 3, sublabel: "Sabers", discountPct: 10, freeShipping: true },
-  { qty: 6, sublabel: "Sabers", discountPct: 15, freeShipping: true },
+  { qty: 1, sublabel: "Saber",  discountAmount: 0,   freeShipping: false },
+  { qty: 2, sublabel: "Sabers", discountAmount: 40,  freeShipping: true },
+  { qty: 3, sublabel: "Sabers", discountAmount: 80,  freeShipping: true },
+  { qty: 4, sublabel: "Sabers", discountAmount: 160, freeShipping: true },
 ] as const;
 
 function findVariant(variants: Variant[], selected: Record<string, string>): Variant | undefined {
@@ -273,7 +273,7 @@ export default function PDPHero({ product }: { product: Product }) {
                       }`}
                     >
                       {t.freeShipping && <span className="block">Free Shipping</span>}
-                      {t.discountPct > 0 ? `+${t.discountPct}% OFF` : " "}
+                      {t.discountAmount > 0 ? `$${t.discountAmount} OFF` : " "}
                     </div>
                     <div
                       className={`py-3 ${
@@ -351,50 +351,51 @@ export default function PDPHero({ product }: { product: Product }) {
         image={zoomSrc || undefined}
       />
 
-      {/* Sticky add-to-cart — appears when the main CTA scrolls out of view */}
+      {/* Sticky add-to-cart — appears when the main CTA scrolls out of view.
+          Mobile: full-width bottom bar. Desktop: floating card bottom-right. */}
       <div
-        className={`fixed bottom-4 right-4 z-40 w-[min(620px,calc(100vw-2rem))] transform transition-all duration-300 ease-out ${
+        className={`fixed inset-x-3 bottom-3 z-40 transform transition-all duration-300 ease-out md:inset-x-auto md:bottom-4 md:right-4 md:w-[min(620px,calc(100vw-2rem))] ${
           showSticky
             ? "translate-y-0 opacity-100"
             : "pointer-events-none translate-y-6 opacity-0"
         }`}
       >
-        <div className="flex items-center gap-4 rounded-2xl border border-(--color-hairline-strong) bg-(--color-ink-2)/95 p-3 shadow-2xl backdrop-blur-md">
+        <div className="flex items-center gap-3 rounded-2xl border border-(--color-hairline-strong) bg-(--color-ink-2)/95 p-2.5 shadow-2xl backdrop-blur-md md:gap-4 md:p-3">
           {product.images[0] && (
-            <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-(--color-hairline) bg-(--color-ink)">
+            <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl border border-(--color-hairline) bg-(--color-ink) md:h-20 md:w-20">
               <Image
                 src={product.images[0]}
                 alt={product.title}
                 fill
                 sizes="80px"
-                className="object-contain p-1.5"
+                className="object-contain p-1 md:p-1.5"
               />
             </div>
           )}
 
           <div className="min-w-0 flex-1">
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-(--color-muted)">
+            <p className="hidden font-mono text-[10px] uppercase tracking-[0.22em] text-(--color-muted) md:block">
               Luna Blades
             </p>
-            <p className="mt-0.5 truncate font-display text-[18px] uppercase leading-tight tracking-tight text-(--color-bone) md:text-[20px]">
+            <p className="truncate font-display text-[14px] uppercase leading-tight tracking-tight text-(--color-bone) md:mt-0.5 md:text-[20px]">
               {product.title}
             </p>
-            <div className="mt-1 flex items-baseline gap-2">
-              <span className="font-display text-[16px] tabular-nums text-(--color-blue)">
+            <div className="mt-0.5 flex items-baseline gap-2 md:mt-1">
+              <span className="font-display text-[15px] tabular-nums text-(--color-blue) md:text-[16px]">
                 {money(price * qty)}
               </span>
               {onSale && (
-                <span className="font-mono text-[12px] tabular-nums text-(--color-muted) line-through">
+                <span className="font-mono text-[11px] tabular-nums text-(--color-muted) line-through md:text-[12px]">
                   {money(compareAt! * qty)}
                 </span>
               )}
               {qty > 1 && (
-                <span className="font-mono text-[11px] tabular-nums text-(--color-bone-soft)">
+                <span className="hidden font-mono text-[11px] tabular-nums text-(--color-bone-soft) md:inline">
                   ({qty} × {money(price)})
                 </span>
               )}
             </div>
-            <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
+            <div className="mt-1.5 hidden flex-wrap items-center gap-1.5 md:flex">
               <span className="inline-block rounded-full border border-(--color-blue)/50 bg-(--color-blue)/15 px-2.5 py-[3px] font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-(--color-bone)">
                 Qty {qty}
               </span>
@@ -410,9 +411,10 @@ export default function PDPHero({ product }: { product: Product }) {
             type="button"
             onClick={handleAdd}
             disabled={!available || !variant}
-            className="shrink-0 rounded-full bg-(--color-blue) px-6 py-4 font-display text-[13px] uppercase tracking-[0.16em] text-white transition hover:bg-(--color-blue-soft) disabled:cursor-not-allowed disabled:opacity-50"
+            className="shrink-0 rounded-full bg-(--color-blue) px-4 py-3 font-display text-[12px] uppercase tracking-[0.16em] text-white transition hover:bg-(--color-blue-soft) disabled:cursor-not-allowed disabled:opacity-50 md:px-6 md:py-4 md:text-[13px]"
           >
-            {available ? "Add to cart" : "Sold out"}
+            <span className="md:hidden">{available ? "Add" : "Sold out"}</span>
+            <span className="hidden md:inline">{available ? "Add to cart" : "Sold out"}</span>
           </button>
         </div>
       </div>
