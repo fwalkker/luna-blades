@@ -13,9 +13,8 @@ export default function Nav() {
       <div className="mx-auto grid h-[88px] max-w-[1230px] grid-cols-[1fr_auto_1fr] items-center gap-4 px-5 md:px-8">
         {/* LEFT — primary nav */}
         <div className="hidden items-center gap-7 md:flex">
-          <Link href="/" className="nav-link">Sabers</Link>
-          <Link href="/collections/originals" className="nav-link">Originals</Link>
-          <Link href="/collections/replicas" className="nav-link">Replicas</Link>
+          <Link href="/" className="nav-link">Home</Link>
+          <Link href="/collections/originals" className="nav-link">Sabers</Link>
           <Link href="/pages/operation-guides" className="nav-link">Guides</Link>
           <Link href="/pages/brand" className="nav-link">Brand</Link>
         </div>
@@ -33,7 +32,7 @@ export default function Nav() {
         {/* RIGHT — utilities */}
         <div className="flex items-center justify-end gap-5">
           <Link
-            href="/pages/reviews"
+            href="/products/obi-se#reviews"
             className="hidden text-[11px] uppercase tracking-[0.22em] text-(--color-bone-soft) transition hover:text-(--color-bone) lg:inline"
           >
             Reviews

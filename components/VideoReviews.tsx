@@ -16,9 +16,9 @@ type Review = {
 const REVIEWS: Review[] = [
   { cover: VIDEO_REVIEW_COVERS[0], name: "Marcus", handle: "@marcusduels",     duration: "3:42", video: "/videos/review-1.mp4" },
   { cover: VIDEO_REVIEW_COVERS[1], name: "Devin",  handle: "@devin.ks",        duration: "2:18", video: "/videos/review-2.mp4" },
-  { cover: VIDEO_REVIEW_COVERS[2], name: "Sarah",  handle: "@gift.shop.sarah", duration: "1:56" },
-  { cover: VIDEO_REVIEW_COVERS[3], name: "Tariq",  handle: "@tariq.builds",    duration: "4:21" },
-  { cover: VIDEO_REVIEW_COVERS[4], name: "Olivia", handle: "@livfromohio",     duration: "2:44" },
+  { cover: "/videos/review-3.jpg", name: "Sarah",  handle: "@gift.shop.sarah", duration: "1:56", video: "/videos/review-3.mp4" },
+  { cover: "/videos/review-4.jpg", name: "Tariq",  handle: "@tariq.builds",    duration: "4:21", video: "/videos/review-4.mp4" },
+  { cover: "/videos/review-5.jpg", name: "Olivia", handle: "@livfromohio",     duration: "2:44", video: "/videos/review-5.mp4" },
 ];
 
 export default function VideoReviews() {
@@ -131,12 +131,6 @@ function ReviewTile({ review }: { review: Review }) {
           </svg>
         )}
       </span>
-
-      {/* Bottom-left attribution */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 p-4 text-left">
-        <p className="font-display text-[14px] uppercase tracking-tight">{review.name}</p>
-        <p className="mt-0.5 text-[11px] text-(--color-bone-soft)">{review.handle}</p>
-      </div>
 
       {/* Top-right duration */}
       <span className="pointer-events-none absolute right-3 top-3 rounded-full bg-black/70 px-2 py-[2px] text-[10px] tabular-nums text-white">

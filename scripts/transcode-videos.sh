@@ -96,16 +96,18 @@ transcode_one() {
     -c:a aac -b:a 128k -ac 2 \
     "$tmp"
 
-  # If source was .mp4 and out_path is the same, remove old before move
-  if [ "$src" = "$out_path" ]; then
+  # If source and out_path point to the same file (same inode), remove before move.
+  # Use -ef (same-file check) instead of string equality so relative vs absolute
+  # paths to the same file are treated identically.
+  if [ -f "$src" ] && [ "$src" -ef "$out_path" ]; then
     rm -f "$src"
   fi
 
   mv "$tmp" "$out_path"
 
   # If the source had a different extension, remove the original from VIDEOS_DIR
-  # (it's already backed up in _originals/)
-  if [ -f "$src" ] && [ "$src" != "$out_path" ]; then
+  # (it's already backed up in _originals/). Skip if src already points to out_path.
+  if [ -f "$src" ] && ! [ "$src" -ef "$out_path" ]; then
     rm -f "$src"
   fi
 

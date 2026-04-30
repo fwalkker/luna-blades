@@ -34,7 +34,7 @@ export default function ProductCard({ product, idx }: { product: Product; idx: n
       <div className="grid grid-cols-[1fr_auto] items-end gap-3 px-5 pb-5 pt-5 md:px-6 md:pb-6">
         <div>
           <h3 className="font-display text-[22px] leading-[1.05] tracking-tight md:text-[24px]">{product.title}</h3>
-          <p className="mt-1 font-display text-[14px] italic text-(--color-muted)">{product.tagline}</p>
+          <p className="mt-1 line-clamp-1 font-display text-[14px] italic text-(--color-muted)">{product.tagline}</p>
         </div>
         <div className="text-right">
           <span className="font-display text-[24px] tabular-nums leading-none text-(--color-amber)">{money(product.price)}</span>

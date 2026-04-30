@@ -5,3 +5,5 @@ node_modules
 *.log
 trash/
 *.tsbuildinfo
+.claude/
+public/videos/_originals/

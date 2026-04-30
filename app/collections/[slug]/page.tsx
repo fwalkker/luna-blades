@@ -4,14 +4,9 @@ import ProductCard from "@/components/ProductCard";
 
 const COLLECTIONS: Record<string, { title: string; sub: string; filter: (p: Product) => boolean }> = {
   originals: {
-    title: "Original designs",
-    sub: "Hilts we drew, machined, and named ourselves.",
+    title: "Sabers",
+    sub: "Every blade we make.",
     filter: () => true,
-  },
-  replicas: {
-    title: "Replicas",
-    sub: "Combat-optimized takes on the silhouettes you grew up with.",
-    filter: (p) => /kestis|obi|maul|kylo|ani|hero/i.test(p.handle),
   },
   bundles: {
     title: "Bundle deals",

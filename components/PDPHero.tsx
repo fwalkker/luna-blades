@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { Product, Variant } from "@/lib/products";
 import { bladeHex, SPECS } from "@/lib/products";
 import { money, moneyPrecise } from "@/lib/format";
@@ -17,6 +17,17 @@ const TABS: { key: TabKey; label: string }[] = [
   { key: "uses", label: "Uses" },
   { key: "care", label: "Care" },
 ];
+
+// Quantity tiers shown on the PDP. The discount/free-shipping labels are
+// promotional copy — for them to actually apply at checkout, configure matching
+// Shopify automatic discounts (Discounts → Create automatic discount → "Buy X get Y").
+// Keep these in sync with whatever's set up in Shopify admin.
+const QTY_TIERS = [
+  { qty: 1, sublabel: "Saber", discountPct: 0, freeShipping: false },
+  { qty: 2, sublabel: "Sabers", discountPct: 5, freeShipping: true },
+  { qty: 3, sublabel: "Sabers", discountPct: 10, freeShipping: true },
+  { qty: 6, sublabel: "Sabers", discountPct: 15, freeShipping: true },
+] as const;
 
 function findVariant(variants: Variant[], selected: Record<string, string>): Variant | undefined {
   return variants.find((v) =>
@@ -49,6 +60,8 @@ export default function PDPHero({ product }: { product: Product }) {
   const [selected, setSelected] = useState<Record<string, string>>(() => defaultSelection(product));
   const [qty, setQty] = useState<number>(1);
   const [tab, setTab] = useState<TabKey>("details");
+  const [showSticky, setShowSticky] = useState(false);
+  const ctaRef = useRef<HTMLButtonElement>(null);
 
   const variant = useMemo(() => {
     return findVariant(product.variants, selected) ?? product.variants[0];
@@ -71,6 +84,22 @@ export default function PDPHero({ product }: { product: Product }) {
       });
     }
   }, [product.handle, product.title, price]);
+
+  useEffect(() => {
+    const node = ctaRef.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Only show sticky when the main CTA has scrolled ABOVE the viewport.
+        // If it's below (user hasn't scrolled to it yet), keep sticky hidden.
+        const scrolledPast = !entry.isIntersecting && entry.boundingClientRect.bottom < 0;
+        setShowSticky(scrolledPast);
+      },
+      { threshold: 0 }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
 
   function handleAdd() {
     if (!variant) return;
@@ -171,6 +200,9 @@ export default function PDPHero({ product }: { product: Product }) {
                           const probe = { ...selected, [opt.name]: value };
                           const probeVariant = findVariant(product.variants, probe);
                           const valueAvailable = probeVariant?.available ?? false;
+                          const probePrice = probeVariant?.price;
+                          const probeCompare = probeVariant?.compareAt;
+                          const probeOnSale = probeCompare && probePrice && probeCompare > probePrice;
                           return (
                             <button
                               key={value}
@@ -188,6 +220,18 @@ export default function PDPHero({ product }: { product: Product }) {
                               <p className="font-display text-[15px] uppercase tracking-tight text-(--color-bone) md:text-[16px]">
                                 {value}
                               </p>
+                              {probePrice !== undefined && (
+                                <div className="mt-1 flex items-baseline gap-2">
+                                  <span className="font-mono text-[12px] tabular-nums text-(--color-bone)">
+                                    {money(probePrice)}
+                                  </span>
+                                  {probeOnSale && (
+                                    <span className="font-mono text-[10px] tabular-nums text-(--color-muted) line-through">
+                                      {money(probeCompare!)}
+                                    </span>
+                                  )}
+                                </div>
+                              )}
                               {!valueAvailable && (
                                 <p className="mt-0.5 text-[10px] uppercase tracking-[0.18em] text-(--color-muted)">
                                   Sold out
@@ -205,41 +249,55 @@ export default function PDPHero({ product }: { product: Product }) {
 
             <Divider />
 
-            {/* Quantity */}
+            {/* Quantity tiers */}
             <Label>Quantity</Label>
-            <div className="mt-3 flex items-center gap-4">
-              <div className="flex items-center overflow-hidden rounded-full border border-(--color-hairline-strong)">
-                <button
-                  type="button"
-                  onClick={() => setQty((q) => Math.max(1, q - 1))}
-                  className="px-4 py-2 text-(--color-bone-soft) transition hover:text-(--color-bone)"
-                  aria-label="Decrease quantity"
-                >
-                  −
-                </button>
-                <span className="min-w-[44px] text-center font-display text-[16px] tabular-nums">
-                  {qty}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setQty((q) => q + 1)}
-                  className="px-4 py-2 text-(--color-bone-soft) transition hover:text-(--color-bone)"
-                  aria-label="Increase quantity"
-                >
-                  +
-                </button>
-              </div>
-              <span className="text-[12px] text-(--color-muted)">
-                {available
-                  ? variant && variant.quantityAvailable > 0 && variant.quantityAvailable <= 10
-                    ? `Only ${variant.quantityAvailable} left · ships in 48h`
-                    : "In stock · ships in 48h"
-                  : "Out of stock"}
-              </span>
+            <div className="mt-3 grid grid-cols-4 gap-2">
+              {QTY_TIERS.map((t) => {
+                const isSelected = qty === t.qty;
+                return (
+                  <button
+                    key={t.qty}
+                    type="button"
+                    onClick={() => setQty(t.qty)}
+                    className={`group overflow-hidden rounded-lg border-2 text-center transition ${
+                      isSelected
+                        ? "border-(--color-blue) ring-2 ring-(--color-blue)/40"
+                        : "border-(--color-hairline) hover:border-(--color-hairline-strong)"
+                    }`}
+                  >
+                    <div
+                      className={`px-1 py-1 text-[8.5px] font-semibold uppercase leading-tight tracking-[0.05em] ${
+                        isSelected
+                          ? "bg-(--color-blue)/30 text-(--color-bone)"
+                          : "bg-(--color-ink) text-(--color-bone-soft)"
+                      }`}
+                    >
+                      {t.freeShipping && <span className="block">Free Shipping</span>}
+                      {t.discountPct > 0 ? `+${t.discountPct}% OFF` : " "}
+                    </div>
+                    <div
+                      className={`py-3 ${
+                        isSelected ? "bg-(--color-blue) text-white" : "bg-(--color-ink-2) text-(--color-bone)"
+                      }`}
+                    >
+                      <p className="font-display text-[26px] leading-none">{t.qty}</p>
+                      <p className="mt-1 text-[10px] uppercase tracking-[0.15em] opacity-90">{t.sublabel}</p>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
+            <p className="mt-3 text-[11px] text-(--color-muted)">
+              {available
+                ? variant && variant.quantityAvailable > 0 && variant.quantityAvailable <= 10
+                  ? `Only ${variant.quantityAvailable} left · ships in 48h`
+                  : "In stock · ships in 48h · bundle savings applied at checkout"
+                : "Out of stock"}
+            </p>
 
             {/* CTA */}
             <button
+              ref={ctaRef}
               type="button"
               onClick={handleAdd}
               disabled={!available || !variant}
@@ -259,24 +317,7 @@ export default function PDPHero({ product }: { product: Product }) {
             </p>
           </div>
 
-          {/* CARD 2 — gift callout */}
-          <div className="flex items-center gap-4 rounded-lg border border-(--color-hairline-strong) bg-(--color-ink-2) px-5 py-4">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-(--color-blue)/40 bg-(--color-blue)/10 text-(--color-blue)">
-              <GiftIcon />
-            </span>
-            <p className="text-[13px] leading-relaxed text-(--color-bone-soft)">
-              Buying multiple gifts? Send to multiple addresses{" "}
-              <Link
-                href="/pages/multi-gift"
-                className="font-semibold text-(--color-blue) underline-offset-2 hover:underline"
-              >
-                here
-              </Link>
-              .
-            </p>
-          </div>
-
-          {/* CARD 3 — inline tabs */}
+          {/* CARD 2 — inline tabs */}
           <div className="rounded-lg border border-(--color-hairline-strong) bg-(--color-ink-2)">
             <div className="grid grid-cols-4 border-b border-(--color-hairline)">
               {TABS.map((t) => (
@@ -309,6 +350,72 @@ export default function PDPHero({ product }: { product: Product }) {
         onClose={() => setZoomSrc(null)}
         image={zoomSrc || undefined}
       />
+
+      {/* Sticky add-to-cart — appears when the main CTA scrolls out of view */}
+      <div
+        className={`fixed bottom-4 right-4 z-40 w-[min(620px,calc(100vw-2rem))] transform transition-all duration-300 ease-out ${
+          showSticky
+            ? "translate-y-0 opacity-100"
+            : "pointer-events-none translate-y-6 opacity-0"
+        }`}
+      >
+        <div className="flex items-center gap-4 rounded-2xl border border-(--color-hairline-strong) bg-(--color-ink-2)/95 p-3 shadow-2xl backdrop-blur-md">
+          {product.images[0] && (
+            <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-(--color-hairline) bg-(--color-ink)">
+              <Image
+                src={product.images[0]}
+                alt={product.title}
+                fill
+                sizes="80px"
+                className="object-contain p-1.5"
+              />
+            </div>
+          )}
+
+          <div className="min-w-0 flex-1">
+            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-(--color-muted)">
+              Luna Blades
+            </p>
+            <p className="mt-0.5 truncate font-display text-[18px] uppercase leading-tight tracking-tight text-(--color-bone) md:text-[20px]">
+              {product.title}
+            </p>
+            <div className="mt-1 flex items-baseline gap-2">
+              <span className="font-display text-[16px] tabular-nums text-(--color-blue)">
+                {money(price * qty)}
+              </span>
+              {onSale && (
+                <span className="font-mono text-[12px] tabular-nums text-(--color-muted) line-through">
+                  {money(compareAt! * qty)}
+                </span>
+              )}
+              {qty > 1 && (
+                <span className="font-mono text-[11px] tabular-nums text-(--color-bone-soft)">
+                  ({qty} × {money(price)})
+                </span>
+              )}
+            </div>
+            <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
+              <span className="inline-block rounded-full border border-(--color-blue)/50 bg-(--color-blue)/15 px-2.5 py-[3px] font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-(--color-bone)">
+                Qty {qty}
+              </span>
+              {variant && variant.title && variant.title !== "Default Title" && (
+                <span className="inline-block rounded-full bg-(--color-blue) px-2.5 py-[3px] font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-white">
+                  {variant.title}
+                </span>
+              )}
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={handleAdd}
+            disabled={!available || !variant}
+            className="shrink-0 rounded-full bg-(--color-blue) px-6 py-4 font-display text-[13px] uppercase tracking-[0.16em] text-white transition hover:bg-(--color-blue-soft) disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {available ? "Add to cart" : "Sold out"}
+          </button>
+        </div>
+      </div>
     </section>
   );
 }
@@ -490,6 +597,15 @@ function GiftIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
       <path d="M3 8h18v4H3zM5 12v9h14v-9M12 8v13M12 8s-3-4-5-4a2 2 0 0 0 0 4M12 8s3-4 5-4a2 2 0 0 1 0 4" />
+    </svg>
+  );
+}
+
+function BagIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <path d="M5 8h14l-1.2 12.2a1.6 1.6 0 0 1-1.6 1.4H7.8a1.6 1.6 0 0 1-1.6-1.4L5 8Z" />
+      <path d="M9 8V6a3 3 0 0 1 6 0v2" />
     </svg>
   );
 }

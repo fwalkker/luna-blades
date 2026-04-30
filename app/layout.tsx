@@ -31,11 +31,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
+        {/* Preconnect to Shopify CDN so product image requests start before HTML parsing finishes */}
+        <link rel="preconnect" href="https://cdn.shopify.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://cdn.shopify.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Outfit:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap"
         />
       </head>
       <body>

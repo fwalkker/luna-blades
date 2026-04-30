@@ -23,17 +23,26 @@ export async function shopifyFetch<T>(
     );
   }
 
+  // Private (server-side) tokens start with `shpat_` and use a different header
+  // than public tokens. Detecting at the token level lets either work.
+  const isPrivate = TOKEN!.startsWith("shpat_");
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    [isPrivate ? "Shopify-Storefront-Private-Token" : "X-Shopify-Storefront-Access-Token"]: TOKEN!,
+  };
+
   const init: RequestInit & { next?: { tags?: string[]; revalidate?: number | false } } = {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-Shopify-Storefront-Access-Token": TOKEN!,
-    },
+    headers,
     body: JSON.stringify({ query, variables }),
   };
 
   if (opts.cache) {
     init.cache = opts.cache;
+  } else if (process.env.NODE_ENV === "development") {
+    // In dev, always fetch fresh so Shopify backend changes show on next reload.
+    // Production uses tag-based cache + webhook revalidation.
+    init.cache = "no-store";
   } else {
     init.next = {
       tags: opts.tags,

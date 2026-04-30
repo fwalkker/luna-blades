@@ -8,10 +8,13 @@ export const metadata = {
     "Why we started Luna Blades, what we make, and what we won't compromise on.",
 };
 
+const COMMUNITY_PHOTOS = Array.from({ length: 8 }, (_, i) =>
+  `/brand/community/${String(i + 1).padStart(2, "0")}.webp`
+);
+
 export default async function BrandPage() {
   const products = await getAllProducts();
   const FEATURED = products.slice(0, 3);
-  const heroImage = FEATURED[0]?.images[0];
 
   return (
     <article>
@@ -28,17 +31,15 @@ export default async function BrandPage() {
               Luna Blades was started by three friends in a garage in California — one machinist, one electronics nerd, one kid who never stopped believing the toy aisle had been hiding the real thing. We built the saber we wanted to own, then we built it again with everything we'd learned, and then we did it eleven more times.
             </p>
           </div>
-          <div className="relative aspect-[4/5]">
-            {heroImage && (
-              <Image
-                src={heroImage}
-                alt="Luna Blades"
-                fill
-                priority
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-contain"
-              />
-            )}
+          <div className="relative aspect-[4/5] overflow-hidden rounded-lg">
+            <Image
+              src="/brand/hero.png"
+              alt="Luna Blades"
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover"
+            />
           </div>
         </div>
       </section>
@@ -100,10 +101,19 @@ export default async function BrandPage() {
             </p>
             <Link href="/" className="btn btn-outline mt-8">Read the impact report</Link>
           </div>
-          <div className="grid grid-cols-3 gap-3">
-            {FEATURED.map((p) => (
-              <div key={p.handle} className="relative aspect-[3/5] overflow-hidden rounded-lg border border-(--color-hairline) bg-(--color-ink)">
-                <Image src={p.images[0]} alt={p.title} fill sizes="200px" className="object-contain p-3" />
+          <div className="grid grid-cols-4 gap-2 md:gap-3">
+            {COMMUNITY_PHOTOS.map((src, i) => (
+              <div
+                key={src}
+                className="relative aspect-square overflow-hidden rounded-lg border border-(--color-hairline) bg-(--color-ink)"
+              >
+                <Image
+                  src={src}
+                  alt={`Community photo ${i + 1}`}
+                  fill
+                  sizes="(max-width: 768px) 25vw, 120px"
+                  className="object-cover"
+                />
               </div>
             ))}
           </div>
@@ -129,7 +139,7 @@ export default async function BrandPage() {
                   <Image src={p.images[0]} alt={p.title} fill sizes="(max-width:768px) 100vw, 33vw" className="object-contain p-3 transition group-hover:scale-[1.04]" />
                 </div>
                 <h3 className="mt-5 font-display text-[20px] uppercase tracking-tight">{p.title}</h3>
-                <p className="mt-2 text-[13px] text-(--color-muted)">{p.tagline}</p>
+                <p className="mt-2 line-clamp-1 text-[13px] text-(--color-muted)">{p.tagline}</p>
               </Link>
             ))}
           </div>

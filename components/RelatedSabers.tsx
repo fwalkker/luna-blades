@@ -70,7 +70,7 @@ export default function RelatedSabers({ related }: { related: Product[] }) {
                     >
                       {p.title}
                     </Link>
-                    <p className="mt-1 font-display text-[12px] italic text-(--color-muted)">{p.tagline}</p>
+                    <p className="mt-1 line-clamp-1 font-display text-[12px] italic text-(--color-muted)">{p.tagline}</p>
                   </div>
 
                   <div className="flex items-baseline gap-2">

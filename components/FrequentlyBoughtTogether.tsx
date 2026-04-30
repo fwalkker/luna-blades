@@ -149,7 +149,7 @@ export default function FrequentlyBoughtTogether({ product }: { product: Product
                   <h3 className="font-display mt-5 text-[16px] leading-[1.15] tracking-tight">
                     {it.title}
                   </h3>
-                  <p className="mt-1 line-clamp-2 text-[12px] text-(--color-muted)">{it.blurb}</p>
+                  <p className="mt-1 line-clamp-1 text-[12px] text-(--color-muted)">{it.blurb}</p>
 
                   <div className="mt-3 flex items-baseline gap-2">
                     <span className="font-display text-[18px] tabular-nums text-(--color-amber)">
