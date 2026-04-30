@@ -87,6 +87,26 @@ html, body {
   text-rendering: optimizeLegibility;
 }
 
+/* Tailwind v4 dropped the default pointer cursor on <button>. Restore it
+   on every interactive element so hovering anything clickable feels right. */
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]),
+summary,
+label[for],
+select,
+input[type="submit"],
+input[type="button"],
+input[type="reset"],
+input[type="checkbox"],
+input[type="radio"],
+input[type="file"] {
+  cursor: pointer;
+}
+button:disabled,
+[role="button"][aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
 /* Galaxy starfield — single static layer, no fixed-attachment, no blend, no infinite anim.
    Fixed-attachment + mix-blend-mode + body-level keyframe animations all force full-page
    repaints on every scroll frame. Not worth the perf hit. */
