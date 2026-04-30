@@ -22,38 +22,31 @@ export default function MayFourthCountdown() {
   const s = ms === null ? null : Math.floor((ms / 1000) % 60);
 
   return (
-    <div className="inline-flex flex-col items-center gap-2 rounded-full border border-(--color-blue)/35 bg-(--color-ink-2)/85 px-4 py-2 md:flex-row md:gap-4">
-      <span className="flex items-center gap-2">
-        <span
-          className={`size-2 shrink-0 rounded-full bg-(--color-blue) ${live ? "" : "animate-pulse"}`}
-        />
-        <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-(--color-blue) md:text-[12px]">
-          {live ? "Sale live · May the 4th" : "May 4 · 30% off"}
-        </span>
-      </span>
-      <span className="hidden h-4 w-px bg-(--color-blue)/30 md:block" />
-      <span className="flex items-baseline gap-2 font-mono tabular-nums text-[14px] text-(--color-bone) md:text-[17px]">
-        <Seg n={d} unit="d" />
-        <Sep />
-        <Seg n={h} unit="h" />
-        <Sep />
-        <Seg n={m} unit="m" />
-        <Sep />
-        <Seg n={s} unit="s" />
-      </span>
+    <div className="inline-flex items-baseline gap-3 font-mono tabular-nums text-(--color-bone) md:gap-5">
+      <Seg n={d} unit="d" />
+      <Sep />
+      <Seg n={h} unit="h" />
+      <Sep />
+      <Seg n={m} unit="m" />
+      <Sep />
+      <Seg n={s} unit="s" live={live} />
     </div>
   );
 }
 
-function Seg({ n, unit }: { n: number | null; unit: string }) {
+function Seg({ n, unit, live }: { n: number | null; unit: string; live?: boolean }) {
   return (
-    <span className="flex items-baseline gap-1">
-      <span>{n === null ? "--" : String(n).padStart(2, "0")}</span>
-      <span className="text-[11px] uppercase tracking-[0.14em] text-(--color-muted)">{unit}</span>
+    <span className="flex items-baseline gap-1.5">
+      <span className="font-display text-[28px] leading-none tracking-tight md:text-[44px]">
+        {n === null ? "--" : String(n).padStart(2, "0")}
+      </span>
+      <span className="text-[12px] uppercase tracking-[0.18em] text-(--color-muted) md:text-[14px]">
+        {unit}
+      </span>
     </span>
   );
 }
 
 function Sep() {
-  return <span className="text-(--color-blue)/40">·</span>;
+  return <span className="font-display text-[24px] leading-none text-(--color-blue)/50 md:text-[36px]">:</span>;
 }

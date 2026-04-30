@@ -5,9 +5,10 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Product, Variant } from "@/lib/products";
 import { bladeHex, SPECS } from "@/lib/products";
-import { money, moneyPrecise } from "@/lib/format";
 import { useCart } from "@/lib/cart-store";
+import { QTY_TIERS, getBundleDiscount } from "@/lib/bundle-tiers";
 import MediaModal from "./MediaModal";
+import Price from "./Price";
 
 type TabKey = "details" | "specs" | "uses" | "care";
 
@@ -17,17 +18,6 @@ const TABS: { key: TabKey; label: string }[] = [
   { key: "uses", label: "Uses" },
   { key: "care", label: "Care" },
 ];
-
-// Quantity tiers shown on the PDP. The discount/free-shipping labels are
-// promotional copy — for them to actually apply at checkout, configure matching
-// Shopify automatic discounts (Discounts → Create automatic discount → "Amount off products").
-// Keep these in sync with whatever's set up in Shopify admin.
-const QTY_TIERS = [
-  { qty: 1, sublabel: "Saber",  discountAmount: 0,   freeShipping: false },
-  { qty: 2, sublabel: "Sabers", discountAmount: 40,  freeShipping: true },
-  { qty: 3, sublabel: "Sabers", discountAmount: 80,  freeShipping: true },
-  { qty: 4, sublabel: "Sabers", discountAmount: 160, freeShipping: true },
-] as const;
 
 function findVariant(variants: Variant[], selected: Record<string, string>): Variant | undefined {
   return variants.find((v) =>
@@ -72,6 +62,11 @@ export default function PDPHero({ product }: { product: Product }) {
   const onSale = compareAt && compareAt > price;
   const available = variant?.available ?? product.available;
   const showOptions = !isDefaultTitleOnly(product);
+
+  // Bundle math — display only. Real money applied via Shopify automatic discounts.
+  const baseTotal = price * qty;
+  const bundleDiscount = getBundleDiscount(qty);
+  const finalTotal = Math.max(0, baseTotal - bundleDiscount);
 
   useEffect(() => {
     if (typeof window !== "undefined" && (window as any).fbq) {
@@ -138,13 +133,14 @@ export default function PDPHero({ product }: { product: Product }) {
               {product.title}
             </h1>
             <div className="mt-3 flex items-baseline gap-3">
-              <span className="font-display text-[24px] tabular-nums text-(--color-blue)">
-                {money(price)}
-              </span>
+              <Price
+                amount={price}
+                className="font-display text-[24px] tabular-nums text-(--color-blue)"
+              />
               {onSale && (
                 <>
                   <span className="font-mono text-[14px] tabular-nums text-(--color-muted) line-through">
-                    {moneyPrecise(compareAt!)}
+                    <Price amount={compareAt!} precise />
                   </span>
                   <span className="rounded-full border border-(--color-blue) bg-(--color-blue)/15 px-2.5 py-[2px] text-[10px] font-semibold uppercase tracking-[0.18em] text-(--color-blue)">
                     Save {Math.round(((compareAt! - price) / compareAt!) * 100)}%
@@ -222,12 +218,13 @@ export default function PDPHero({ product }: { product: Product }) {
                               </p>
                               {probePrice !== undefined && (
                                 <div className="mt-1 flex items-baseline gap-2">
-                                  <span className="font-mono text-[12px] tabular-nums text-(--color-bone)">
-                                    {money(probePrice)}
-                                  </span>
+                                  <Price
+                                    amount={probePrice}
+                                    className="font-mono text-[12px] tabular-nums text-(--color-bone)"
+                                  />
                                   {probeOnSale && (
                                     <span className="font-mono text-[10px] tabular-nums text-(--color-muted) line-through">
-                                      {money(probeCompare!)}
+                                      <Price amount={probeCompare!} />
                                     </span>
                                   )}
                                 </div>
@@ -301,20 +298,31 @@ export default function PDPHero({ product }: { product: Product }) {
               type="button"
               onClick={handleAdd}
               disabled={!available || !variant}
-              className="mt-6 flex w-full items-center justify-center gap-3 rounded-full bg-(--color-blue) px-6 py-5 font-display text-[14px] uppercase tracking-[0.18em] text-white transition hover:bg-(--color-blue-soft) disabled:cursor-not-allowed disabled:opacity-50"
+              className="mt-6 flex w-full flex-wrap items-center justify-center gap-x-3 gap-y-1 rounded-full bg-(--color-blue) px-6 py-5 font-display text-[14px] uppercase tracking-[0.18em] text-white transition hover:bg-(--color-blue-soft) disabled:cursor-not-allowed disabled:opacity-50"
             >
               <span>{available ? "Add to cart" : "Sold out"}</span>
               {available && (
                 <>
                   <span className="opacity-50">—</span>
-                  <span className="tabular-nums">{moneyPrecise(price * qty)}</span>
+                  {bundleDiscount > 0 && (
+                    <span className="font-mono text-[12px] tabular-nums opacity-70 line-through">
+                      <Price amount={baseTotal} precise />
+                    </span>
+                  )}
+                  <Price amount={finalTotal} precise className="tabular-nums" />
                 </>
               )}
             </button>
 
-            <p className="mt-3 text-center text-[11px] text-(--color-muted)">
-              Free 30-day returns · Lifetime blade replacement
-            </p>
+            {available && bundleDiscount > 0 ? (
+              <p className="mt-3 text-center text-[12px] font-semibold uppercase tracking-[0.18em] text-(--color-bone)">
+                You save <Price amount={bundleDiscount} /> · bundle deal
+              </p>
+            ) : (
+              <p className="mt-3 text-center text-[11px] text-(--color-muted)">
+                Free 30-day returns · Lifetime blade replacement
+              </p>
+            )}
           </div>
 
           {/* CARD 2 — inline tabs */}
@@ -380,18 +388,19 @@ export default function PDPHero({ product }: { product: Product }) {
             <p className="truncate font-display text-[14px] uppercase leading-tight tracking-tight text-(--color-bone) md:mt-0.5 md:text-[20px]">
               {product.title}
             </p>
-            <div className="mt-0.5 flex items-baseline gap-2 md:mt-1">
-              <span className="font-display text-[15px] tabular-nums text-(--color-blue) md:text-[16px]">
-                {money(price * qty)}
-              </span>
-              {onSale && (
+            <div className="mt-0.5 flex flex-wrap items-baseline gap-2 md:mt-1">
+              <Price
+                amount={finalTotal}
+                className="font-display text-[15px] tabular-nums text-(--color-blue) md:text-[16px]"
+              />
+              {bundleDiscount > 0 && (
                 <span className="font-mono text-[11px] tabular-nums text-(--color-muted) line-through md:text-[12px]">
-                  {money(compareAt! * qty)}
+                  <Price amount={baseTotal} />
                 </span>
               )}
-              {qty > 1 && (
-                <span className="hidden font-mono text-[11px] tabular-nums text-(--color-bone-soft) md:inline">
-                  ({qty} × {money(price)})
+              {bundleDiscount > 0 && (
+                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-(--color-blue) md:text-[11px]">
+                  Save <Price amount={bundleDiscount} />
                 </span>
               )}
             </div>

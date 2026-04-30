@@ -4,8 +4,8 @@ import Image from "next/image";
 import { useMemo, useState } from "react";
 import type { Product } from "@/lib/products";
 import { ACCESSORIES, bladeHex } from "@/lib/products";
-import { money } from "@/lib/format";
 import { useCart } from "@/lib/cart-store";
+import Price from "./Price";
 
 const ADDON_IDS = ["gift-case", "extra-blade", "blade-plug"];
 
@@ -152,12 +152,13 @@ export default function FrequentlyBoughtTogether({ product }: { product: Product
                   <p className="mt-1 line-clamp-1 text-[12px] text-(--color-muted)">{it.blurb}</p>
 
                   <div className="mt-3 flex items-baseline gap-2">
-                    <span className="font-display text-[18px] tabular-nums text-(--color-amber)">
-                      {money(it.price)}
-                    </span>
+                    <Price
+                      amount={it.price}
+                      className="font-display text-[18px] tabular-nums text-(--color-amber)"
+                    />
                     {it.compareAt && it.compareAt > it.price && (
                       <span className="font-mono text-[11px] tabular-nums text-(--color-muted) line-through">
-                        {money(it.compareAt)}
+                        <Price amount={it.compareAt} />
                       </span>
                     )}
                   </div>
@@ -182,7 +183,7 @@ export default function FrequentlyBoughtTogether({ product }: { product: Product
                   <li key={it.key} className="flex items-baseline justify-between gap-3">
                     <span className="truncate">{it.title}</span>
                     <span className="shrink-0 font-mono text-[12px] tabular-nums text-(--color-muted)">
-                      {money(it.price)}
+                      <Price amount={it.price} />
                     </span>
                   </li>
                 ))}
@@ -193,13 +194,14 @@ export default function FrequentlyBoughtTogether({ product }: { product: Product
                   <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-(--color-muted)">
                     Bundle total
                   </span>
-                  <span className="font-display text-[34px] tabular-nums text-(--color-amber)">
-                    {money(subtotal)}
-                  </span>
+                  <Price
+                    amount={subtotal}
+                    className="font-display text-[34px] tabular-nums text-(--color-amber)"
+                  />
                 </div>
                 {savings > 0 && (
                   <p className="mt-1 text-right font-mono text-[10px] uppercase tracking-[0.2em] text-(--color-amber)">
-                    You save {money(savings)} vs. buying separately
+                    You save <Price amount={savings} /> vs. buying separately
                   </p>
                 )}
               </div>
@@ -211,7 +213,7 @@ export default function FrequentlyBoughtTogether({ product }: { product: Product
               className="mt-6 flex items-center justify-between rounded-full border border-(--color-amber) bg-(--color-amber) px-5 py-4 text-(--color-ink) transition hover:bg-(--color-amber-soft) disabled:cursor-not-allowed disabled:opacity-50"
             >
               <span className="font-mono text-[11px] uppercase tracking-[0.24em]">
-                Add bundle — {money(subtotal)}
+                Add bundle — <Price amount={subtotal} />
               </span>
               <span className="font-display text-[20px]">→</span>
             </button>

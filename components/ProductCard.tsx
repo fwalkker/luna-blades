@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Product } from "@/lib/products";
-import { money } from "@/lib/format";
+import Price from "./Price";
 
 export default function ProductCard({ product, idx }: { product: Product; idx: number }) {
   const onSale = product.compareAt && product.compareAt > product.price;
@@ -37,10 +37,13 @@ export default function ProductCard({ product, idx }: { product: Product; idx: n
           <p className="mt-1 line-clamp-1 font-display text-[14px] italic text-(--color-muted)">{product.tagline}</p>
         </div>
         <div className="text-right">
-          <span className="font-display text-[24px] tabular-nums leading-none text-(--color-amber)">{money(product.price)}</span>
+          <Price
+            amount={product.price}
+            className="font-display text-[24px] tabular-nums leading-none text-(--color-amber)"
+          />
           {onSale && (
             <p className="mt-1 font-mono text-[11px] tabular-nums text-(--color-muted) line-through">
-              {money(product.compareAt!)}
+              <Price amount={product.compareAt!} />
             </p>
           )}
         </div>

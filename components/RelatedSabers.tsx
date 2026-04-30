@@ -4,8 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Product } from "@/lib/products";
 import { bladeHex } from "@/lib/products";
-import { money } from "@/lib/format";
 import { useCart } from "@/lib/cart-store";
+import Price from "./Price";
 
 export default function RelatedSabers({ related }: { related: Product[] }) {
   const add = useCart((s) => s.add);
@@ -74,12 +74,13 @@ export default function RelatedSabers({ related }: { related: Product[] }) {
                   </div>
 
                   <div className="flex items-baseline gap-2">
-                    <span className="font-display text-[20px] tabular-nums text-(--color-amber)">
-                      {money(p.price)}
-                    </span>
+                    <Price
+                      amount={p.price}
+                      className="font-display text-[20px] tabular-nums text-(--color-amber)"
+                    />
                     {onSale && (
                       <span className="font-mono text-[11px] tabular-nums text-(--color-muted) line-through">
-                        {money(p.compareAt!)}
+                        <Price amount={p.compareAt!} />
                       </span>
                     )}
                   </div>

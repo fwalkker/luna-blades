@@ -106,7 +106,7 @@ function HomeHero() {
           </p>
 
           <h1 className="h-display rise rise-2 mt-4 text-[40px] leading-[0.92] md:mt-5 md:text-[112px] md:leading-[0.9]">
-            May the blade
+            May the 4th
             <br />
             <span className="text-(--color-blue)">be with you.</span>
           </h1>

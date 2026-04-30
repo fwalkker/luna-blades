@@ -1,14 +1,23 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import type { Product } from "@/lib/products";
 import { bladeHex } from "@/lib/products";
 import { money } from "@/lib/format";
 import { useCart } from "@/lib/cart-store";
+import { useCurrency, formatPrice } from "@/lib/currency";
 
 export default function BundleTiers({ product }: { product: Product }) {
   const add = useCart((s) => s.add);
   const hex = bladeHex(product.blade);
   const p = product.price;
+
+  // Currency-aware formatter that falls back to USD until the client has hydrated
+  // (zustand persisted state is unavailable on first server render).
+  const code = useCurrency((s) => s.code);
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => setHydrated(true), []);
+  const fmt = (n: number): string => (hydrated ? formatPrice(n, code) : money(n));
 
   const pair = Math.round(p * 2 * 0.85);
   const loadout = Math.round(p * 2 * 0.75) + 29 + 19;
@@ -23,8 +32,8 @@ export default function BundleTiers({ product }: { product: Product }) {
       lines: [`× 1 ${shortName(product.title)}`],
       price: p,
       compareAt: product.compareAt ?? null,
-      saveLine: product.compareAt && product.compareAt > p ? `Save ${money(product.compareAt - p)}` : "",
-      ctaLabel: `Add — ${money(p)}`,
+      saveLine: product.compareAt && product.compareAt > p ? `Save ${fmt(product.compareAt - p)}` : "",
+      ctaLabel: `Add — ${fmt(p)}`,
       onClick: () => addOne(),
       emphasis: false,
     },
@@ -36,8 +45,8 @@ export default function BundleTiers({ product }: { product: Product }) {
       lines: [`× 2 ${shortName(product.title)}`, "Pair them. Duel them. Gift one."],
       price: pair,
       compareAt: p * 2,
-      saveLine: `Save ${money(p * 2 - pair)} when paired`,
-      ctaLabel: `Add Pair — ${money(pair)}`,
+      saveLine: `Save ${fmt(p * 2 - pair)} when paired`,
+      ctaLabel: `Add Pair — ${fmt(pair)}`,
       onClick: () => { addOne(); addOne(); },
       emphasis: true,
     },
@@ -53,8 +62,8 @@ export default function BundleTiers({ product }: { product: Product }) {
       ],
       price: loadout,
       compareAt: loadoutCompare,
-      saveLine: `Save ${money(loadoutCompare - loadout)}`,
-      ctaLabel: `Add Loadout — ${money(loadout)}`,
+      saveLine: `Save ${fmt(loadoutCompare - loadout)}`,
+      ctaLabel: `Add Loadout — ${fmt(loadout)}`,
       onClick: () => { addOne(); addOne(); addCase(); addPlug(); },
       emphasis: false,
     },
@@ -146,10 +155,10 @@ export default function BundleTiers({ product }: { product: Product }) {
               </ul>
 
               <div className="mt-7 flex items-baseline gap-3 border-t border-(--color-hairline) pt-6">
-                <span className="font-display text-[36px] tabular-nums text-(--color-amber)">{money(t.price)}</span>
+                <span className="font-display text-[36px] tabular-nums text-(--color-amber)">{fmt(t.price)}</span>
                 {t.compareAt && t.compareAt > t.price && (
                   <span className="font-mono text-[14px] tabular-nums text-(--color-muted) line-through">
-                    {money(t.compareAt)}
+                    {fmt(t.compareAt)}
                   </span>
                 )}
               </div>

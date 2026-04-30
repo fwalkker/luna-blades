@@ -3,7 +3,8 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useCart, cartSubtotal, type CartItem } from "@/lib/cart-store";
-import { moneyPrecise } from "@/lib/format";
+import { getBundleDiscount } from "@/lib/bundle-tiers";
+import Price from "./Price";
 
 function CheckoutButton({ items, subtotal }: { items: CartItem[]; subtotal: number }) {
   const [loading, setLoading] = useState(false);
@@ -58,6 +59,13 @@ function CheckoutButton({ items, subtotal }: { items: CartItem[]; subtotal: numb
 export default function CartDrawer() {
   const { items, isOpen, close, setQty } = useCart();
   const subtotal = cartSubtotal(items);
+
+  // Bundle math — display only. Real money applied via Shopify automatic discounts.
+  const saberQty = items
+    .filter((i) => i.kind === "saber")
+    .reduce((s, i) => s + i.qty, 0);
+  const bundleDiscount = getBundleDiscount(saberQty);
+  const total = Math.max(0, subtotal - bundleDiscount);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -132,7 +140,9 @@ export default function CartDrawer() {
                   </div>
                   <div className="flex flex-1 flex-col">
                     <h3 className="font-display text-[15px] leading-tight">{item.title}</h3>
-                    <p className="mt-1 font-mono text-[11px] text-(--color-muted)">{moneyPrecise(item.price)}</p>
+                    <p className="mt-1 font-mono text-[11px] text-(--color-muted)">
+                      <Price amount={item.price} precise />
+                    </p>
                     <div className="mt-auto flex items-center justify-between">
                       <div className="flex items-center overflow-hidden rounded-full border border-(--color-hairline-strong)">
                         <button
@@ -152,7 +162,7 @@ export default function CartDrawer() {
                         </button>
                       </div>
                       <span className="font-mono text-[12px] tabular-nums text-(--color-bone)">
-                        {moneyPrecise(item.price * item.qty)}
+                        <Price amount={item.price * item.qty} precise />
                       </span>
                     </div>
                   </div>
@@ -164,14 +174,45 @@ export default function CartDrawer() {
 
         {items.length > 0 && (
           <footer className="border-t border-(--color-hairline) px-6 py-5">
-            <div className="mb-4 flex items-baseline justify-between">
-              <span className="eyebrow">Subtotal</span>
-              <span className="font-display text-[28px] tracking-tight">{moneyPrecise(subtotal)}</span>
+            <div className="mb-2 flex items-baseline justify-between text-[13px]">
+              <span className="text-(--color-bone-soft)">Subtotal</span>
+              <span
+                className={`font-mono tabular-nums ${
+                  bundleDiscount > 0
+                    ? "text-(--color-muted) line-through"
+                    : "text-(--color-bone)"
+                }`}
+              >
+                <Price amount={subtotal} precise />
+              </span>
             </div>
+            {bundleDiscount > 0 && (
+              <div className="mb-2 flex items-baseline justify-between text-[13px]">
+                <span className="font-mono uppercase tracking-[0.16em] text-(--color-blue)">
+                  Bundle savings · {saberQty} sabers
+                </span>
+                <span className="font-mono tabular-nums text-(--color-blue)">
+                  −<Price amount={bundleDiscount} precise />
+                </span>
+              </div>
+            )}
+            <div className="mb-4 flex items-baseline justify-between border-t border-(--color-hairline) pt-3">
+              <span className="eyebrow">Total</span>
+              <Price
+                amount={total}
+                precise
+                className="font-display text-[28px] tabular-nums tracking-tight"
+              />
+            </div>
+            {bundleDiscount > 0 && (
+              <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.18em] text-(--color-blue)">
+                You save <Price amount={bundleDiscount} /> with this bundle
+              </p>
+            )}
             <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.22em] text-(--color-muted-2)">
               Shipping &amp; tax calculated at checkout
             </p>
-            <CheckoutButton items={items} subtotal={subtotal} />
+            <CheckoutButton items={items} subtotal={total} />
           </footer>
         )}
       </aside>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import Logo from "./Logo";
 import { useEffect, useState } from "react";
 import { useCart } from "@/lib/cart-store";
+import CurrencyPicker from "./CurrencyPicker";
 
 const MOBILE_LINKS = [
   { href: "/", label: "Home" },
@@ -57,35 +58,28 @@ export default function Nav() {
           </Link>
 
           {/* RIGHT — utilities */}
-          <div className="flex items-center justify-end gap-3 md:gap-5">
+          <div className="flex items-center justify-end gap-3 md:gap-4">
             <Link
               href="/products/obi-se#reviews"
               className="hidden text-[11px] uppercase tracking-[0.22em] text-(--color-bone-soft) transition hover:text-(--color-bone) lg:inline"
             >
               Reviews
             </Link>
-            <Link
-              href="/account"
-              aria-label="Account"
-              className="hidden text-(--color-bone-soft) transition hover:text-(--color-bone) md:inline"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <circle cx="12" cy="8" r="4" />
-                <path d="M4 21c0-4 4-7 8-7s8 3 8 7" />
-              </svg>
-            </Link>
+            <CurrencyPicker />
             <button
               onClick={open}
-              className="group relative flex items-center gap-2 text-(--color-bone-soft) transition hover:text-(--color-bone)"
-              aria-label="Cart"
+              className="group relative inline-flex items-center text-(--color-bone-soft) transition hover:text-(--color-bone)"
+              aria-label={count > 0 ? `Cart, ${count} item${count === 1 ? "" : "s"}` : "Cart"}
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                 <path d="M5 7h14l-1.5 12a2 2 0 0 1-2 1.8H8.5a2 2 0 0 1-2-1.8L5 7Z" />
                 <path d="M9 7a3 3 0 0 1 6 0" />
               </svg>
-              <span className="text-[11px] tabular-nums uppercase tracking-[0.18em]">
-                ({count.toString().padStart(2, "0")})
-              </span>
+              {count > 0 && (
+                <span className="absolute -right-1.5 -top-1.5 grid min-w-[18px] place-items-center rounded-full bg-(--color-blue) px-1 py-[1px] font-mono text-[10px] font-bold leading-none tabular-nums text-white shadow-[0_0_0_2px_var(--color-ink-2)]">
+                  {count}
+                </span>
+              )}
             </button>
           </div>
         </div>

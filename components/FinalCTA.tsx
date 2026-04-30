@@ -3,8 +3,8 @@
 import Image from "next/image";
 import type { Product } from "@/lib/products";
 import { bladeHex } from "@/lib/products";
-import { money } from "@/lib/format";
 import { useCart } from "@/lib/cart-store";
+import Price from "./Price";
 
 export default function FinalCTA({ product }: { product: Product }) {
   const add = useCart((s) => s.add);
@@ -42,10 +42,13 @@ export default function FinalCTA({ product }: { product: Product }) {
           <div className="mt-4 flex flex-col items-center gap-2 font-display">
             <span className="text-[20px]">{product.title}</span>
             <div className="flex items-baseline gap-3">
-              <span className="text-[28px] tabular-nums text-(--color-amber)">{money(product.price)}</span>
+              <Price
+                amount={product.price}
+                className="text-[28px] tabular-nums text-(--color-amber)"
+              />
               {onSale && (
                 <span className="font-mono text-[14px] tabular-nums text-(--color-muted) line-through">
-                  {money(product.compareAt!)}
+                  <Price amount={product.compareAt!} />
                 </span>
               )}
             </div>
