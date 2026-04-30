@@ -1,0 +1,273 @@
+@import "tailwindcss";
+
+/* =========================================================
+   Theme tokens — palette, typography, spacing
+   Mirrors swasabers.com structural system: pure-black surfaces,
+   white text, deep-blue accent for sale/CTA, pill-shaped buttons,
+   Archivo Black display + Outfit body, 1230px container.
+   We keep our galaxy starfield background (set lower down).
+   ========================================================= */
+@theme {
+  /* Surfaces */
+  --color-ink: #171717;          /* page background */
+  --color-ink-2: #000000;        /* header, footer, cards */
+  --color-surface: #0d0d0d;
+  --color-surface-2: #1f1f1f;
+  --color-hairline: rgba(255, 255, 255, 0.12);
+  --color-hairline-strong: rgba(255, 255, 255, 0.20);
+
+  /* Text */
+  --color-bone: #ffffff;
+  --color-bone-soft: #c2c2c2;
+  --color-muted: #9a9a9a;
+  --color-muted-2: #5e5e5e;
+
+  /* Accent — used for sale price, badge bg, CTA, star color */
+  --color-amber: #235A97;        /* legacy name kept for compat; now the SWA blue */
+  --color-amber-soft: #1a4a7e;   /* hover */
+  --color-blue: #235A97;
+  --color-blue-soft: #1a4a7e;
+  --color-sale: #235A97;
+
+  /* Type */
+  --font-display: "Archivo Black", "Inter", system-ui, sans-serif;
+  --font-sans: "Outfit", "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+  --font-jedi: "Star Jedi SE", "Star Jedi Logo", serif;
+  --font-aurebesh: "Aurebesh", "Star Jedi SE", monospace;
+
+  /* Layout */
+  --container-max: 1230px;
+  --rounded-button: 2.25rem;
+  --rounded-card: 0.75rem;
+
+  /* Type scale (rem) */
+  --text-h0: 3rem;
+  --text-h1: 2.5rem;
+  --text-h2: 2rem;
+  --text-h3: 1.5rem;
+  --text-h4: 1.375rem;
+  --text-h5: 1.125rem;
+  --text-h6: 1rem;
+
+  --shadow-deep: 0 30px 60px -20px rgba(0, 0, 0, 0.6), 0 16px 36px -18px rgba(0, 0, 0, 0.5);
+  --ease-cinema: cubic-bezier(0.2, 0.6, 0.15, 1);
+}
+
+/* ============ Star Wars decorative fonts ============ */
+@font-face {
+  font-family: "Star Jedi SE";
+  src: url("/fonts/StarJediSE.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Star Jedi Logo";
+  src: url("/fonts/StarJediLogo.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Aurebesh";
+  src: url("/fonts/Aurebesh-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ============ Base ============ */
+html, body {
+  background: var(--color-ink);
+  color: var(--color-bone);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Galaxy starfield — single static layer, no fixed-attachment, no blend, no infinite anim.
+   Fixed-attachment + mix-blend-mode + body-level keyframe animations all force full-page
+   repaints on every scroll frame. Not worth the perf hit. */
+body {
+  background-color: var(--color-ink);
+  background-image: url("/stars.svg");
+  background-size: 1800px 1100px;
+  background-repeat: repeat;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Holo blue used for transmission accents */
+.holo {
+  color: #7DC4FF;
+  text-shadow: 0 0 6px rgba(125, 196, 255, 0.4);
+}
+
+/* Transmission blink */
+@keyframes transmit {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+.transmit { animation: transmit 1.6s ease-in-out infinite; }
+
+/* ============ Typography ============ */
+.font-display { font-family: var(--font-display); }
+.font-sans    { font-family: var(--font-sans); }
+.font-mono    { font-family: var(--font-mono); }
+.font-jedi    { font-family: var(--font-jedi); letter-spacing: 0.04em; }
+.font-aurebesh{ font-family: var(--font-aurebesh); }
+
+/* Display headlines — Archivo Black, uppercase, tight tracking */
+.h-display {
+  font-family: var(--font-display);
+  font-weight: 400; /* Archivo Black is single-weight */
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+}
+
+/* Page-title scale — used inline for size control */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 11px;
+  color: var(--color-muted);
+}
+
+/* ============ Buttons (SWA pill style) ============ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: var(--rounded-button);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 13px;
+  padding: 0.875rem 1.75rem;
+  transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: var(--color-blue);
+  color: #ffffff;
+  border: 1px solid var(--color-blue);
+}
+.btn-primary:hover { background: var(--color-blue-soft); border-color: var(--color-blue-soft); }
+
+.btn-light {
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid #ffffff;
+}
+.btn-light:hover { background: #ededed; border-color: #ededed; }
+
+.btn-outline {
+  background: transparent;
+  color: var(--color-bone);
+  border: 1px solid var(--color-hairline-strong);
+}
+.btn-outline:hover { border-color: var(--color-bone); }
+
+/* ============ Layout primitives ============ */
+.hairline   { background: var(--color-hairline); height: 1px; width: 100%; }
+.hairline-v { background: var(--color-hairline); width: 1px; height: 100%; }
+
+.vrail {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-muted-2);
+}
+
+.corners { position: relative; }
+.corners::before, .corners::after,
+.corners > .c-tl, .corners > .c-tr,
+.corners > .c-bl, .corners > .c-br {
+  content: "";
+  position: absolute;
+  width: 14px; height: 14px;
+  border: 1px solid var(--color-hairline-strong);
+  pointer-events: none;
+}
+.corners::before { top: 0; left: 0; border-right: none; border-bottom: none; }
+.corners::after  { top: 0; right: 0; border-left: none; border-bottom: none; }
+.corners > .c-bl { bottom: 0; left: 0; border-right: none; border-top: none; }
+.corners > .c-br { bottom: 0; right: 0; border-left: none; border-top: none; }
+
+/* ============ Saber stage / ignite anim ============ */
+.saber-stage { position: relative; isolation: isolate; }
+
+@keyframes ignite-blade {
+  0%   { transform: scaleY(0); opacity: 0; filter: blur(1px); }
+  60%  { transform: scaleY(1.02); opacity: 1; filter: blur(0); }
+  100% { transform: scaleY(1); opacity: 1; }
+}
+.ignite {
+  transform-origin: bottom center;
+  animation: ignite-blade 850ms var(--ease-cinema) both;
+  animation-delay: 200ms;
+}
+
+/* Reveal stagger */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.rise   { animation: rise 700ms var(--ease-cinema) both; }
+.rise-1 { animation-delay: 80ms; }
+.rise-2 { animation-delay: 220ms; }
+.rise-3 { animation-delay: 360ms; }
+.rise-4 { animation-delay: 500ms; }
+.rise-5 { animation-delay: 640ms; }
+
+/* ============ Selection / scrollbar ============ */
+::selection { background: var(--color-blue); color: #ffffff; }
+button, a { -webkit-tap-highlight-color: transparent; }
+
+@media (pointer: fine) {
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: var(--color-ink); }
+  ::-webkit-scrollbar-thumb { background: var(--color-surface-2); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #2a2a2a; }
+}
+
+/* ============ Marquee + drift ============ */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-track { animation: marquee 30s linear infinite; }
+
+/* Star drift removed — was animating the full-page body background, which is one of
+   the most expensive things you can do in a browser. Static stars look just as good. */
+
+/* FAQ details polish */
+details[open] summary svg.chev { transform: rotate(45deg); }
+summary { list-style: none; }
+summary::-webkit-details-marker { display: none; }
+
+/* Container helper */
+.container-luna {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+@media (min-width: 768px) { .container-luna { padding-inline: 2rem; } }

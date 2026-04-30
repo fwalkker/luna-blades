@@ -1,0 +1,14 @@
+<svg width="780" height="500" viewBox="0 0 780 500" xmlns="http://www.w3.org/2000/svg">
+  <rect width="780" height="500" rx="40" ry="40" fill="#ffffff"/>
+  <rect x="2" y="2" width="776" height="496" rx="38" ry="38" fill="none" stroke="#000000" stroke-opacity="0.08" stroke-width="2"/>
+  <g transform="translate(195 175)">
+    <!-- Google G mark -->
+    <g transform="scale(2.6)">
+      <path fill="#4285F4" d="M47.6 24.55c0-1.71-.15-3.36-.44-4.95H24.5v9.36h13c-.56 3.02-2.26 5.58-4.82 7.3v6.06h7.8c4.56-4.2 7.12-10.38 7.12-17.77z"/>
+      <path fill="#34A853" d="M24.5 48c6.48 0 11.92-2.15 15.9-5.83l-7.8-6.06c-2.16 1.45-4.93 2.3-8.1 2.3-6.23 0-11.51-4.21-13.4-9.86H3.07v6.16C7.04 42.45 15.18 48 24.5 48z"/>
+      <path fill="#FBBC04" d="M11.1 28.55c-.5-1.45-.78-3-.78-4.55s.28-3.1.78-4.55v-6.16H3.07A23.91 23.91 0 0 0 .5 24c0 3.84.92 7.48 2.57 10.71l8.03-6.16z"/>
+      <path fill="#EA4335" d="M24.5 9.59c3.52 0 6.68 1.21 9.16 3.59l6.87-6.87C36.42 2.46 30.98 0 24.5 0 15.18 0 7.04 5.55 3.07 13.29l8.03 6.16c1.89-5.65 7.17-9.86 13.4-9.86z"/>
+    </g>
+  </g>
+  <text x="365" y="320" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="135" font-weight="500" fill="#5F6368">Pay</text>
+</svg>

@@ -1,0 +1,129 @@
+import Link from "next/link";
+import Logo from "./Logo";
+
+export default function Footer() {
+  return (
+    <footer className="relative mt-32 overflow-hidden border-t border-(--color-hairline) bg-(--color-ink-2)">
+      {/* Faint wordmark watermark */}
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 select-none"
+        aria-hidden
+      >
+        <img
+          src="/wordmark.webp"
+          alt=""
+          className="mx-auto block w-[min(90vw,1200px)] opacity-[0.05]"
+        />
+      </div>
+
+      <div className="relative mx-auto max-w-[1230px] px-5 py-14 md:px-8">
+        <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+          <div>
+            <Logo height={48} />
+            <p className="mt-5 max-w-[34ch] text-[14px] leading-relaxed text-(--color-bone-soft)">
+              Honest lightsabers built for the people who actually wanted one as a kid — and for the people who love them now.
+            </p>
+            <div className="mt-6 flex items-center gap-4">
+              <a href="#" aria-label="Instagram" className="text-(--color-bone-soft) transition hover:text-(--color-bone)">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <rect x="3" y="3" width="18" height="18" rx="5" />
+                  <circle cx="12" cy="12" r="4" />
+                  <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" />
+                </svg>
+              </a>
+              <a href="#" aria-label="YouTube" className="text-(--color-bone-soft) transition hover:text-(--color-bone)">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <rect x="2" y="5" width="20" height="14" rx="3" />
+                  <path d="M10 9.5v5l4.5-2.5L10 9.5Z" fill="currentColor" />
+                </svg>
+              </a>
+              <a href="#" aria-label="TikTok" className="text-(--color-bone-soft) transition hover:text-(--color-bone)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M14 3v10.5a3.5 3.5 0 1 1-3.5-3.5h0V8a6 6 0 1 0 6 6V8.5a7 7 0 0 0 4 1.3V7a4 4 0 0 1-4-4h-2.5Z" />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <FooterCol title="Shop">
+            <FooterLink href="/">All sabers</FooterLink>
+            <FooterLink href="/collections/originals">Originals</FooterLink>
+            <FooterLink href="/collections/replicas">Replicas</FooterLink>
+            <FooterLink href="/collections/bundles">Bundles</FooterLink>
+            <FooterLink href="/collections/accessories">Accessories</FooterLink>
+          </FooterCol>
+
+          <FooterCol title="Help">
+            <FooterLink href="/pages/operation-guides">Operation guides</FooterLink>
+            <FooterLink href="/pages/shipping">Shipping</FooterLink>
+            <FooterLink href="/pages/returns">Returns &amp; warranty</FooterLink>
+            <FooterLink href="/pages/track-order">Track order</FooterLink>
+            <FooterLink href="/pages/contact">Contact</FooterLink>
+          </FooterCol>
+
+          <FooterCol title="Brand">
+            <FooterLink href="/pages/brand">Our story</FooterLink>
+            <FooterLink href="/pages/reviews">Reviews</FooterLink>
+            <FooterLink href="/blogs/news">Journal</FooterLink>
+            <FooterLink href="/pages/ambassador">Ambassador program</FooterLink>
+          </FooterCol>
+        </div>
+
+        {/* Payment row */}
+        <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-(--color-hairline) pt-6">
+          <p className="text-[11px] uppercase tracking-[0.18em] text-(--color-muted)">
+            © {new Date().getFullYear()} Luna Blades · Forged in California
+          </p>
+          <div className="flex flex-wrap items-center gap-2">
+            {[
+              { src: "/payment/visa.svg",        alt: "Visa" },
+              { src: "/payment/mastercard.svg",  alt: "Mastercard" },
+              { src: "/payment/amex.svg",        alt: "American Express" },
+              { src: "/payment/discover.svg",    alt: "Discover" },
+              { src: "/payment/paypal.svg",      alt: "PayPal" },
+              { src: "/payment/apple-pay.svg",   alt: "Apple Pay" },
+              { src: "/payment/google-pay.svg",  alt: "Google Pay" },
+              { src: "/payment/shop-pay.svg",    alt: "Shop Pay" },
+            ].map((p) => (
+              <img
+                key={p.alt}
+                src={p.src}
+                alt={p.alt}
+                className="h-6 w-auto"
+                loading="lazy"
+              />
+            ))}
+          </div>
+        </div>
+
+        <p className="mt-4 text-[10px] uppercase tracking-[0.18em] text-(--color-muted-2)">
+          Not affiliated with Lucasfilm Ltd. For fans, by fans.
+        </p>
+      </div>
+    </footer>
+  );
+}
+
+function FooterCol({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <h4 className="mb-4 font-mono text-[11px] uppercase tracking-[0.22em] text-(--color-bone)">
+        {title}
+      </h4>
+      <ul className="space-y-2.5">{children}</ul>
+    </div>
+  );
+}
+
+function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <li>
+      <Link
+        href={href}
+        className="text-[13px] text-(--color-bone-soft) transition hover:text-(--color-bone)"
+      >
+        {children}
+      </Link>
+    </li>
+  );
+}
