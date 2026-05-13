@@ -52,6 +52,20 @@ function CheckoutButton({ items, subtotal }: { items: CartItem[]; subtotal: numb
           {error}
         </p>
       )}
+      {loading && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="fixed inset-0 z-[200] grid place-items-center bg-black/75 backdrop-blur-sm"
+        >
+          <div className="flex flex-col items-center gap-5">
+            <div className="size-12 animate-spin rounded-full border-2 border-(--color-amber) border-t-transparent" />
+            <p className="font-mono text-[11px] uppercase tracking-[0.28em] text-(--color-bone)">
+              Taking you to checkout…
+            </p>
+          </div>
+        </div>
+      )}
     </>
   );
 }
