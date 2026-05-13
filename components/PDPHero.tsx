@@ -542,25 +542,46 @@ function Gallery({
 }) {
   const [hero, ...rest] = images;
   return (
-    <div className="space-y-3 md:space-y-4">
-      {hero && (
-        <Tile src={hero} title={title} index={0} total={images.length} onZoom={onZoom} priority />
-      )}
-      {rest.length > 0 && (
-        <div className="grid grid-cols-2 gap-3 md:gap-4">
-          {rest.map((src, i) => (
-            <Tile
-              key={src + i}
-              src={src}
-              title={title}
-              index={i + 1}
-              total={images.length}
-              onZoom={onZoom}
-            />
+    <>
+      {/* Mobile: edge-to-edge swipe carousel, one image at a time */}
+      <div className="-mx-5 md:hidden">
+        <div className="flex snap-x snap-mandatory overflow-x-auto scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {images.map((src, i) => (
+            <div key={src + i} className="w-full shrink-0 snap-center px-5">
+              <Tile
+                src={src}
+                title={title}
+                index={i}
+                total={images.length}
+                onZoom={onZoom}
+                priority={i === 0}
+              />
+            </div>
           ))}
         </div>
-      )}
-    </div>
+      </div>
+
+      {/* Desktop: hero + 2-col grid */}
+      <div className="hidden space-y-4 md:block">
+        {hero && (
+          <Tile src={hero} title={title} index={0} total={images.length} onZoom={onZoom} priority />
+        )}
+        {rest.length > 0 && (
+          <div className="grid grid-cols-2 gap-4">
+            {rest.map((src, i) => (
+              <Tile
+                key={src + i}
+                src={src}
+                title={title}
+                index={i + 1}
+                total={images.length}
+                onZoom={onZoom}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 
