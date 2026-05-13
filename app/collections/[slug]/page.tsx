@@ -8,11 +8,6 @@ const COLLECTIONS: Record<string, { title: string; sub: string; filter: (p: Prod
     sub: "Every blade we make.",
     filter: () => true,
   },
-  bundles: {
-    title: "Bundle deals",
-    sub: "Two sabers, one price. Pick any pair from the rack.",
-    filter: () => true,
-  },
   combat: {
     title: "Combat-rated",
     sub: "Reinforced blade walls, stronger emitters, dueling-grade everything.",

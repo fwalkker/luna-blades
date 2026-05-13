@@ -48,7 +48,6 @@ export default function Footer() {
           <FooterCol title="Shop">
             <FooterLink href="/">All sabers</FooterLink>
             <FooterLink href="/collections/originals">Sabers</FooterLink>
-            <FooterLink href="/collections/bundles">Bundles</FooterLink>
             <FooterLink href="/collections/accessories">Accessories</FooterLink>
           </FooterCol>
 

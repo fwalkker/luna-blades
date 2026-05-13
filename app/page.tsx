@@ -5,7 +5,6 @@ import ProductCard from "@/components/ProductCard";
 import TrustStrip from "@/components/TrustStrip";
 import GiftCallout from "@/components/GiftCallout";
 import FAQ from "@/components/FAQ";
-import MayFourthCountdown from "@/components/MayFourthCountdown";
 
 export default async function HomePage() {
   const products = await getAllProducts();
@@ -97,27 +96,18 @@ function HomeHero() {
         {/* Centered text package — sits in the gap between the two saber handles
             at mid-height (the widest part of the in-between space). */}
         <div className="relative z-20 flex w-full max-w-[720px] flex-col items-center text-center">
-          <div className="rise rise-1">
-            <MayFourthCountdown />
-          </div>
-
-          <p className="rise rise-2 mt-8 font-mono text-[12px] uppercase tracking-[0.32em] text-(--color-blue)">
-            May the 4th · 30% off site-wide
-          </p>
-
           <h1 className="h-display rise rise-2 mt-4 text-[40px] leading-[0.92] md:mt-5 md:text-[112px] md:leading-[0.9]">
-            May the 4th
+            Premium Sabers.
             <br />
-            <span className="text-(--color-blue)">be with you.</span>
+            <span className="text-(--color-blue)">Actually Accessible.</span>
           </h1>
 
           <p className="rise rise-3 mt-5 max-w-[42ch] text-[14px] leading-[1.6] text-(--color-bone-soft) md:mt-7 md:text-[19px]">
-            Thirteen sabers. Aluminum hilts. Polycarbonate dueling blades. Motion-reactive sound. Discount runs through May 5.
+            Aluminum hilts. Polycarbonate dueling blades. Motion-reactive sound. Explore our saber collection.
           </p>
 
           <div className="rise rise-4 mt-9 flex flex-wrap items-center justify-center gap-4">
-            <Link href="#catalog" className="btn btn-primary">Shop the sale</Link>
-            <Link href="/pages/brand" className="btn btn-outline">All 13 sabers</Link>
+            <Link href="#catalog" className="btn btn-primary">Shop now</Link>
           </div>
 
           <div className="rise rise-4 mt-8 flex items-center gap-3 text-[12px] text-(--color-muted)">
@@ -197,7 +187,7 @@ function DuelingFeature({ hero }: { hero: Product | undefined }) {
             for dueling.
           </h2>
           <p className="mt-6 max-w-[44ch] text-[15px] leading-relaxed text-(--color-bone-soft)">
-            Every blade is a 3mm polycarbonate tube — the same grade police use for riot shields. Reinforced wall, deeper threading, stronger emitter mount. Our combat models trade the busy multi-button menu for one-button strike control so it stays out of the way when you're moving.
+            Every blade is a <strong className="text-(--color-bone)">3mm polycarbonate tube</strong> — the same grade police use for riot shields. <strong className="text-(--color-bone)">Reinforced wall, deeper threading, stronger emitter mount.</strong>
           </p>
           <div className="mt-7 flex flex-wrap gap-4 text-[12px] uppercase tracking-[0.2em] text-(--color-muted)">
             <Stat label="Blade wall" value='3mm' />
@@ -277,7 +267,7 @@ function Retention({ featured }: { featured: Product[] }) {
           81% come back for a second saber.
         </h2>
         <p className="mx-auto mt-6 max-w-[48ch] text-[15px] text-(--color-bone-soft)">
-          Not for repairs. Because once you have one, you want one for the friend who keeps borrowing it.
+          Not for repairs. They come back because the quality holds up — and they want a second one to match.
         </p>
         {featured.length > 0 && (
           <div className="mx-auto mt-12 grid max-w-[1100px] grid-cols-2 gap-4 md:grid-cols-4">
@@ -300,16 +290,15 @@ function BundleBanner() {
       <div className="relative mx-auto max-w-[1100px] text-center">
         <p className="eyebrow text-(--color-blue)">The Twin-Blade Bundle</p>
         <h2 className="h-display mx-auto mt-5 max-w-[18ch] text-[52px] leading-[0.95] md:text-[110px]">
-          Two sabers.
+          Save when you buy
           <br />
-          One price.
+          multiple sabers.
         </h2>
         <p className="mx-auto mt-6 max-w-[42ch] text-[15px] text-(--color-bone-soft)">
-          Because you can't really duel with one. Pick any pair from the rack and save 20%.
+          Because you can't really duel with one. Pick any pair from the collection and save an extra $20 per saber.
         </p>
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-          <Link href="/collections/bundles" className="btn btn-primary">See bundles</Link>
-          <Link href="#catalog" className="btn btn-outline">Pick your pair</Link>
+          <Link href="#catalog" className="btn btn-primary">Shop now</Link>
         </div>
       </div>
     </section>

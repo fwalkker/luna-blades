@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Image from "next/image";
 
 export default function GiftCallout() {
@@ -10,17 +9,14 @@ export default function GiftCallout() {
           <div className="relative bg-(--color-ink-2) p-10 md:p-14">
             <p className="eyebrow text-(--color-amber)">For the gift-giver</p>
             <h2 className="h-display mt-5 text-[44px] leading-[0.95] md:text-[60px]">
-              Arrives like<br />
-              <span style={{ fontStyle: "italic", fontVariationSettings: '"opsz" 144, "SOFT" 100' }}>an heirloom.</span>
+              Arrives ready<br />
+              <span style={{ fontStyle: "italic", fontVariationSettings: '"opsz" 144, "SOFT" 100' }}>to use.</span>
             </h2>
-            <p className="mt-7 max-w-[42ch] text-[15px] leading-relaxed text-(--color-bone-soft)">
-              Every saber ships in a foam-cut hardcase with a hand-stamped card and a folded note that explains what they're holding. It is the gift you give someone whose Star Wars phase never ended.
-            </p>
             <ul className="mt-8 space-y-3">
               {[
                 "Foam-cut presentation case, free",
-                "Optional handwritten note (add at checkout)",
-                "Sealed gift wrap available — no peeking",
+                "Everything included",
+                "Ready out of the box",
               ].map((line) => (
                 <li key={line} className="flex items-baseline gap-3 text-[14px]">
                   <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-(--color-amber)">✦</span>
@@ -28,15 +24,6 @@ export default function GiftCallout() {
                 </li>
               ))}
             </ul>
-            <div className="mt-10">
-              <Link
-                href="/"
-                className="inline-flex items-center gap-2 border-b border-(--color-amber) pb-1 font-mono text-[11px] uppercase tracking-[0.26em] text-(--color-amber) transition hover:gap-3"
-              >
-                See gift-ready sabers
-                <span>→</span>
-              </Link>
-            </div>
           </div>
 
           <div className="relative min-h-[440px] overflow-hidden bg-(--color-ink)">

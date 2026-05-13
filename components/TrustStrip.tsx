@@ -1,7 +1,7 @@
 export default function TrustStrip() {
   const items = [
     { k: "01", t: "Ships in 48h", d: "From California, every weekday" },
-    { k: "02", t: "Free over $99", d: "Tracked, insured, no fuss" },
+    { k: "02", t: "Free shipping on all orders", d: "Tracked, insured, no fuss" },
   ];
   return (
     <section className="border-y border-(--color-hairline) bg-(--color-ink-2)">
