@@ -120,6 +120,17 @@ body {
   position: relative;
 }
 
+/* Mobile: smaller tile + dark overlay so the starfield stops looking bright
+   and repetitive next to a narrow viewport. */
+@media (max-width: 767px) {
+  body {
+    background-size: 900px 550px;
+    background-image:
+      linear-gradient(rgba(11, 12, 16, 0.55), rgba(11, 12, 16, 0.55)),
+      url("/stars.svg");
+  }
+}
+
 /* Holo blue used for transmission accents */
 .holo {
   color: #7DC4FF;

@@ -541,24 +541,71 @@ function Gallery({
   onZoom: (src: string) => void;
 }) {
   const [hero, ...rest] = images;
+  const swiperRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  function goTo(i: number) {
+    const el = swiperRef.current;
+    if (!el) return;
+    el.scrollTo({ left: i * el.clientWidth, behavior: "smooth" });
+  }
+
+  function handleScroll() {
+    const el = swiperRef.current;
+    if (!el) return;
+    const i = Math.round(el.scrollLeft / el.clientWidth);
+    if (i !== activeIndex) setActiveIndex(i);
+  }
+
   return (
     <>
-      {/* Mobile: edge-to-edge swipe carousel, one image at a time */}
-      <div className="-mx-5 md:hidden">
-        <div className="flex snap-x snap-mandatory overflow-x-auto scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {images.map((src, i) => (
-            <div key={src + i} className="w-full shrink-0 snap-center px-5">
-              <Tile
-                src={src}
-                title={title}
-                index={i}
-                total={images.length}
-                onZoom={onZoom}
-                priority={i === 0}
-              />
-            </div>
-          ))}
+      {/* Mobile: edge-to-edge swipe carousel + thumbnail strip */}
+      <div className="md:hidden">
+        <div className="-mx-5">
+          <div
+            ref={swiperRef}
+            onScroll={handleScroll}
+            className="flex snap-x snap-mandatory overflow-x-auto scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          >
+            {images.map((src, i) => (
+              <div key={src + i} className="w-full shrink-0 snap-center px-5">
+                <Tile
+                  src={src}
+                  title={title}
+                  index={i}
+                  total={images.length}
+                  onZoom={onZoom}
+                  priority={i === 0}
+                />
+              </div>
+            ))}
+          </div>
         </div>
+        {images.length > 1 && (
+          <div className="mt-3 flex gap-2 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {images.map((src, i) => (
+              <button
+                key={src + i}
+                type="button"
+                onClick={() => goTo(i)}
+                aria-label={`View image ${i + 1} of ${images.length}`}
+                className={`relative aspect-square w-[64px] shrink-0 overflow-hidden rounded-md border-2 transition ${
+                  activeIndex === i
+                    ? "border-(--color-blue) opacity-100"
+                    : "border-(--color-hairline) opacity-55 hover:opacity-90"
+                }`}
+              >
+                <Image
+                  src={src}
+                  alt=""
+                  fill
+                  sizes="64px"
+                  className="object-contain p-1"
+                />
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Desktop: hero + 2-col grid */}

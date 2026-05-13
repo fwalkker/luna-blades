@@ -38,6 +38,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Preconnect to Shopify CDN so product image requests start before HTML parsing finishes */}
         <link rel="preconnect" href="https://cdn.shopify.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://cdn.shopify.com" />
+        {/* Warm the TLS connection to Shopify checkout so click-to-checkout is faster */}
+        <link rel="preconnect" href="https://shop.lunablades.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://shop.lunablades.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
