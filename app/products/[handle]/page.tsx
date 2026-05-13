@@ -39,9 +39,9 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
   return (
     <article>
       <PDPHero product={product} />
-      <FeatureTriplet />
       <BladeComparison />
       <VideoReviews />
+      <FeatureTriplet />
       <BigFeatureBlocks />
       <ReviewsBoard />
       <FAQ />

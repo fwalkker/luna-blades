@@ -177,10 +177,24 @@ export default function PDPHero({ product }: { product: Product }) {
                 <div className="space-y-5">
                   {product.options.map((opt) => (
                     <div key={opt.name}>
-                      <Label>
-                        {opt.name}:&nbsp;
-                        <span className="font-semibold text-(--color-bone)">{selected[opt.name]}</span>
-                      </Label>
+                      <div className="flex items-center gap-2">
+                        <Label>
+                          {opt.name}:&nbsp;
+                          <span className="font-semibold text-(--color-bone)">{selected[opt.name]}</span>
+                        </Label>
+                        {/internals|blade/i.test(opt.name) && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              document.getElementById("compare")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                            }}
+                            aria-label="Compare blade options"
+                            className="inline-flex h-[15px] w-[15px] items-center justify-center rounded-full border border-(--color-bone-soft) text-[9px] font-semibold leading-none text-(--color-bone-soft) transition hover:border-(--color-blue) hover:text-(--color-blue)"
+                          >
+                            i
+                          </button>
+                        )}
+                      </div>
                       <div
                         className={`mt-3 grid gap-3 ${
                           opt.values.length <= 2

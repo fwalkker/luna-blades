@@ -28,7 +28,7 @@ export default async function BrandPage() {
               <span className="block text-(--color-blue)">with purpose.</span>
             </h1>
             <p className="mt-7 max-w-[44ch] text-[15px] leading-relaxed text-(--color-bone-soft) md:text-[17px]">
-              Luna Blades was started by three friends in a garage in California — one machinist, one electronics nerd, one kid who never stopped believing the toy aisle had been hiding the real thing. We built the saber we wanted to own, then we built it again with everything we'd learned, and then we did it eleven more times.
+              Luna Blades is a small operation built around one idea: a premium saber shouldn't cost what most premium sabers cost. We source our hilts and Xenopixel boards directly, skip the resellers and the brand-name markup, and sell straight to the people who actually swing them. That's it. No celebrity founder story, no garage mythology — just better sabers at a price that makes sense.
             </p>
           </div>
           <div className="relative aspect-[4/5] overflow-hidden rounded-lg">
@@ -57,14 +57,14 @@ export default async function BrandPage() {
           <div className="space-y-7 text-[15px] leading-relaxed text-(--color-bone-soft) md:text-[17px]">
             <p>
               <strong className="font-display text-(--color-bone) uppercase tracking-tight">Combat-ready hilts.</strong>{" "}
-              T6 aircraft aluminum, machined and anodized in our shop. Reinforced threading, recessed switch geometry, brass pommel. They have weight in the hand.
+              T6 aircraft aluminum, machined and anodized in-house. Reinforced threading, recessed switch, brass pommel.
             </p>
             <p>
               <strong className="font-display text-(--color-bone) uppercase tracking-tight">Pixel-strip blades.</strong>{" "}
-              3mm dueling polycarbonate around an addressable LED strip. Twelve colors, ten sound fonts, motion-reactive audio over a 3W hi-fi speaker. All cycled from the hilt button.
+              3mm dueling polycarbonate around an addressable LED strip. Twelve colors, ten fonts, motion-reactive sound.
             </p>
             <p>
-              That's it. We don't sell costume props, we don't sell display-only pieces, we don't sell &quot;starter&quot; kits with toy electronics. Every saber on the rack is the same quality, top to bottom.
+              No costume props. No display pieces. Every saber on the rack is built the same.
             </p>
           </div>
         </div>
