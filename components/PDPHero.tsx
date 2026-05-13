@@ -123,7 +123,7 @@ export default function PDPHero({ product }: { product: Product }) {
 
   return (
     <section className="border-b border-(--color-hairline) px-5 pt-8 pb-16 md:px-8 md:pt-10 md:pb-20">
-      <div className="mx-auto grid max-w-[1230px] gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-14">
+      <div className="mx-auto grid w-full min-w-0 max-w-[1230px] grid-cols-1 gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-14">
         <Gallery images={product.images} title={product.title} onZoom={setZoomSrc} />
 
         <div className="space-y-5">
@@ -559,30 +559,29 @@ function Gallery({
 
   return (
     <>
-      {/* Mobile: edge-to-edge swipe carousel + thumbnail strip */}
+      {/* Mobile: swipe carousel + thumbnail strip (inset within section padding,
+          no negative margins so nothing can blow out the page width). */}
       <div className="md:hidden">
-        <div className="-mx-5">
-          <div
-            ref={swiperRef}
-            onScroll={handleScroll}
-            className="flex snap-x snap-mandatory overflow-x-auto scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-          >
-            {images.map((src, i) => (
-              <div key={src + i} className="w-full shrink-0 snap-center px-5">
-                <Tile
-                  src={src}
-                  title={title}
-                  index={i}
-                  total={images.length}
-                  onZoom={onZoom}
-                  priority={i === 0}
-                />
-              </div>
-            ))}
-          </div>
+        <div
+          ref={swiperRef}
+          onScroll={handleScroll}
+          className="flex w-full snap-x snap-mandatory overflow-x-auto scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
+          {images.map((src, i) => (
+            <div key={src + i} className="w-full shrink-0 snap-center">
+              <Tile
+                src={src}
+                title={title}
+                index={i}
+                total={images.length}
+                onZoom={onZoom}
+                priority={i === 0}
+              />
+            </div>
+          ))}
         </div>
         {images.length > 1 && (
-          <div className="mt-3 flex gap-2 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="mt-3 flex w-full gap-2 overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {images.map((src, i) => (
               <button
                 key={src + i}

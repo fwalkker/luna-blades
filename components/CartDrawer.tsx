@@ -9,32 +9,18 @@ import Price from "./Price";
 function CheckoutButton({ items, subtotal }: { items: CartItem[]; subtotal: number }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const cachedUrl = useCart((s) => s.checkoutUrl);
-
-  function fireInitiateCheckoutPixel() {
-    if (typeof window !== "undefined" && (window as any).fbq) {
-      (window as any).fbq("track", "InitiateCheckout", {
-        value: subtotal,
-        currency: "USD",
-        num_items: items.reduce((s, i) => s + i.qty, 0),
-      });
-    }
-  }
 
   async function go() {
     setLoading(true);
     setError(null);
-
-    // Fast path: we already pre-fetched a checkout URL while the user was
-    // browsing the cart. Skip the /api/checkout round trip entirely.
-    if (cachedUrl) {
-      fireInitiateCheckoutPixel();
-      window.location.href = cachedUrl;
-      return;
-    }
-
     try {
-      fireInitiateCheckoutPixel();
+      if (typeof window !== "undefined" && (window as any).fbq) {
+        (window as any).fbq("track", "InitiateCheckout", {
+          value: subtotal,
+          currency: "USD",
+          num_items: items.reduce((s, i) => s + i.qty, 0),
+        });
+      }
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -86,7 +72,6 @@ function CheckoutButton({ items, subtotal }: { items: CartItem[]; subtotal: numb
 
 export default function CartDrawer() {
   const { items, isOpen, close, setQty } = useCart();
-  const prefetchCheckout = useCart((s) => s.prefetchCheckout);
   const subtotal = cartSubtotal(items);
 
   // Bundle math — display only. Real money applied via Shopify automatic discounts.
@@ -95,15 +80,6 @@ export default function CartDrawer() {
     .reduce((s, i) => s + i.qty, 0);
   const bundleDiscount = getBundleDiscount(saberQty);
   const total = Math.max(0, subtotal - bundleDiscount);
-
-  // Pre-create the Shopify cart in the background as soon as the drawer opens
-  // (or whenever the cart contents change while it's open). By the time the
-  // user clicks checkout, the URL is already in hand.
-  useEffect(() => {
-    if (!isOpen) return;
-    if (items.length === 0) return;
-    prefetchCheckout();
-  }, [isOpen, items, prefetchCheckout]);
 
   useEffect(() => {
     if (!isOpen) return;
