@@ -6,6 +6,7 @@ import Price from "./Price";
 export default function ProductCard({ product, idx }: { product: Product; idx: number }) {
   const onSale = product.compareAt && product.compareAt > product.price;
   const pct = onSale ? Math.round(((product.compareAt! - product.price) / product.compareAt!) * 100) : 0;
+  const soldOut = !product.available;
 
   return (
     <Link
@@ -18,13 +19,19 @@ export default function ProductCard({ product, idx }: { product: Product; idx: n
           alt={product.title}
           fill
           sizes="(max-width: 768px) 100vw, 33vw"
-          className="object-contain p-6 transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+          className={`object-contain p-6 transition-transform duration-500 ease-out group-hover:scale-[1.03] ${
+            soldOut ? "opacity-40 grayscale" : ""
+          }`}
         />
 
         <span className="absolute left-3 top-3 font-mono text-[10px] uppercase tracking-[0.22em] text-(--color-muted-2)">
           № {String(idx + 1).padStart(2, "0")}
         </span>
-        {onSale && (
+        {soldOut ? (
+          <span className="absolute right-3 top-3 rounded-full border border-(--color-hairline-strong) bg-(--color-ink) px-[10px] py-[5px] font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-(--color-bone-soft)">
+            Sold out
+          </span>
+        ) : onSale && (
           <span className="absolute right-3 top-3 rounded-full bg-(--color-amber) px-[10px] py-[5px] font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-(--color-ink)">
             −{pct}%
           </span>

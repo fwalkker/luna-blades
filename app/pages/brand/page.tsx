@@ -61,7 +61,7 @@ export default async function BrandPage() {
             </p>
             <p>
               <strong className="font-display text-(--color-bone) uppercase tracking-tight">Pixel-strip blades.</strong>{" "}
-              3mm dueling polycarbonate around an addressable LED strip. Twelve colors, ten sound fonts, motion-reactive audio over a 3W hi-fi speaker. Controlled from your phone.
+              3mm dueling polycarbonate around an addressable LED strip. Twelve colors, ten sound fonts, motion-reactive audio over a 3W hi-fi speaker. All cycled from the hilt button.
             </p>
             <p>
               That's it. We don't sell costume props, we don't sell display-only pieces, we don't sell &quot;starter&quot; kits with toy electronics. Every saber on the rack is the same quality, top to bottom.
@@ -72,12 +72,11 @@ export default async function BrandPage() {
 
       {/* STATS */}
       <section className="px-5 py-24 md:px-8">
-        <div className="mx-auto grid max-w-[1230px] grid-cols-2 gap-px overflow-hidden rounded-lg border border-(--color-hairline) bg-(--color-hairline-strong) md:grid-cols-4">
+        <div className="mx-auto grid max-w-[1230px] grid-cols-1 gap-px overflow-hidden rounded-lg border border-(--color-hairline) bg-(--color-hairline-strong) md:grid-cols-3">
           {[
             { v: "12,400+", l: "duelists worldwide" },
-            { v: "4.9★", l: "across 2,800 reviews" },
+            { v: "4.9★", l: "across 400+ reviews" },
             { v: "0", l: "outsourced parts" },
-            { v: "1 yr", l: "no-questions warranty" },
           ].map((s) => (
             <div key={s.l} className="bg-(--color-ink-2) p-8 text-center md:p-10">
               <p className="font-display text-[40px] leading-none text-(--color-bone) md:text-[56px]">{s.v}</p>
@@ -91,15 +90,14 @@ export default async function BrandPage() {
       <section className="border-y border-(--color-hairline) bg-(--color-ink-2) px-5 py-24 md:px-8">
         <div className="mx-auto grid max-w-[1230px] items-center gap-14 md:grid-cols-2">
           <div>
-            <p className="eyebrow text-(--color-blue)">Giving back</p>
+            <p className="eyebrow text-(--color-blue)">In the wild</p>
             <h2 className="h-display mt-4 text-[40px] leading-[0.95] md:text-[64px]">
-              For every saber sold,
-              <span className="block text-(--color-blue)">we donate one toy.</span>
+              See us in
+              <span className="block text-(--color-blue)">the community.</span>
             </h2>
             <p className="mt-7 max-w-[46ch] text-[15px] leading-relaxed text-(--color-bone-soft)">
-              We work with a local toy drive every December. We started it because the people who love this stuff most are the ones who didn't get to have it as kids. So we send a little of it back.
+              Meetups, conventions, garage duels, weddings, photo nights. The best part of this job is watching the sabers show up in real life. These are some of our favorite shots from the people who own them.
             </p>
-            <Link href="/" className="btn btn-outline mt-8">Read the impact report</Link>
           </div>
           <div className="grid grid-cols-4 gap-2 md:gap-3">
             {COMMUNITY_PHOTOS.map((src, i) => (

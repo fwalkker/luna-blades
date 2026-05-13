@@ -46,7 +46,7 @@ const SHARED_SPECS = [
   { label: "Charging", value: "USB-C, rechargeable cell" },
   { label: "Speaker", value: "3W, 4–8Ω hi-fi" },
   { label: "Sound fonts", value: "10+, motion-reactive" },
-  { label: "Colors", value: "12 RGB, app-tunable" },
+  { label: "Colors", value: "12 preset colors" },
 ] as const;
 
 export const SPECS = SHARED_SPECS;

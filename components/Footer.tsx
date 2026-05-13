@@ -55,7 +55,6 @@ export default function Footer() {
           <FooterCol title="Help">
             <FooterLink href="/pages/operation-guides">Operation guides</FooterLink>
             <FooterLink href="/pages/shipping">Shipping</FooterLink>
-            <FooterLink href="/pages/returns">Returns &amp; warranty</FooterLink>
             <FooterLink href="/pages/track-order">Track order</FooterLink>
             <FooterLink href="/pages/contact">Contact</FooterLink>
           </FooterCol>

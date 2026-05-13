@@ -137,7 +137,7 @@ export default function Nav() {
           ))}
         </ul>
         <div className="border-t border-(--color-hairline) px-5 py-4 text-[11px] uppercase tracking-[0.22em] text-(--color-muted)">
-          Free worldwide shipping · 30-day returns
+          Free worldwide shipping
         </div>
       </aside>
     </>

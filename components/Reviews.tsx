@@ -45,7 +45,7 @@ export default function Reviews() {
           </div>
           <div className="hidden text-right md:block">
             <div className="font-display text-[44px] leading-none">4.9</div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-(--color-muted)">avg from 124 reviews</p>
+            <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-(--color-muted)">avg from 400+ reviews</p>
           </div>
         </div>
 

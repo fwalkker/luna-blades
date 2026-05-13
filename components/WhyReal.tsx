@@ -13,7 +13,7 @@ export default function WhyReal() {
     {
       n: "iii",
       t: "Sound that earns the lights.",
-      d: "Motion-reactive audio over a 3W hi-fi speaker. Twelve colors, ten sound fonts, all controlled from your phone.",
+      d: "Motion-reactive audio over a 3W hi-fi speaker. Twelve colors, ten sound fonts, all cycled from the hilt button.",
     },
   ];
   return (

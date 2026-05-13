@@ -2,12 +2,12 @@ import Reviews from "@/components/Reviews";
 
 export const metadata = {
   title: "Reviews — Luna Blades",
-  description: "What real owners say. 4.9★ across 2,800+ verified reviews.",
+  description: "What real owners say. 4.9★ across 400+ verified reviews.",
 };
 
 const STATS = [
   { v: "4.9", l: "average star rating" },
-  { v: "2,847", l: "verified reviews" },
+  { v: "400+", l: "verified reviews" },
   { v: "94%", l: "would gift again" },
   { v: "12,400+", l: "duelists" },
 ];

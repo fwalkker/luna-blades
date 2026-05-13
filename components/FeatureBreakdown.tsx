@@ -25,14 +25,14 @@ export default function FeatureBreakdown({ product }: { product: Product }) {
       tag: "03 · Sound",
       title: "Audio that earns the lights",
       body: "A 3W hi-fi speaker mounted close to the emitter, paired with a six-axis motion sensor. The result is clash, swing, and ignition response that doesn't feel canned. Ten sound fonts ship with each saber and you can sideload your own.",
-      bullets: ["3W speaker", "6-axis IMU", "10 sound fonts", "Sideload via app"],
+      bullets: ["3W speaker", "6-axis IMU", "10 sound fonts", "USB-C font loading"],
       img: product.images[2] || product.images[0],
     },
     {
       tag: "04 · Light",
-      title: "Pixel-strip color, controlled from your phone",
-      body: "An addressable LED strip runs the full length of the blade. Twelve preset colors, plus full RGB tuning from the Luna app. Animated effects — ignition crawl, unstable flicker, blaster blocks, force push.",
-      bullets: ["Addressable LED", "12 presets + full RGB", "Animated effects", "App-tunable brightness"],
+      title: "Pixel-strip color, switched from the hilt",
+      body: "An addressable LED strip runs the full length of the blade. Twelve preset colors, cycled with the hilt button. Animated effects — ignition crawl, unstable flicker, blaster blocks, force push.",
+      bullets: ["Addressable LED", "12 preset colors", "Animated effects", "Three brightness levels"],
       img: product.images[3] || product.images[0],
     },
     {

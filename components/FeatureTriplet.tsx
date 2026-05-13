@@ -11,12 +11,12 @@ export default function FeatureTriplet() {
     {
       icon: <Audio />,
       title: "Motion-reactive",
-      body: "Onboard 3W hi-fi speaker with clash, swing, and ignition detection. Ten sound fonts, app-tunable.",
+      body: "Onboard 3W hi-fi speaker with clash, swing, and ignition detection. Ten sound fonts, switchable in-hilt.",
     },
     {
       icon: <Charge />,
-      title: "USB-C, app-native",
-      body: "Charges in 90 minutes. Pair to the Luna app to switch colors, fonts, and brightness from your phone.",
+      title: "USB-C, ready to go",
+      body: "Charges in 90 minutes. Cycle twelve colors, ten sound fonts, and three brightness levels with the hilt button — no app, no pairing.",
     },
   ];
   return (

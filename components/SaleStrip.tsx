@@ -6,8 +6,6 @@ export default function SaleStrip() {
   const segments = [
     "Free worldwide shipping",
     "·",
-    "30-day returns",
-    "·",
     "Lifetime blade replacement",
     "·",
     "Buy one, save on the second",

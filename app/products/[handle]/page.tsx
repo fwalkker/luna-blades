@@ -2,12 +2,11 @@ import { notFound } from "next/navigation";
 import { getAllProducts, getProduct, pickRelated } from "@/lib/products";
 import PDPHero from "@/components/PDPHero";
 import FeatureTriplet from "@/components/FeatureTriplet";
+import BladeComparison from "@/components/BladeComparison";
 import VideoReviews from "@/components/VideoReviews";
-import StoryFeature from "@/components/StoryFeature";
 import BigFeatureBlocks from "@/components/BigFeatureBlocks";
 import ReviewsBoard from "@/components/ReviewsBoard";
 import FAQ from "@/components/FAQ";
-import BannerCTA from "@/components/BannerCTA";
 import RelatedSabers from "@/components/RelatedSabers";
 
 export async function generateStaticParams() {
@@ -41,12 +40,11 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
     <article>
       <PDPHero product={product} />
       <FeatureTriplet />
+      <BladeComparison />
       <VideoReviews />
-      <StoryFeature />
       <BigFeatureBlocks />
       <ReviewsBoard />
       <FAQ />
-      <BannerCTA />
       <RelatedSabers related={related} />
     </article>
   );

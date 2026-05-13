@@ -12,15 +12,16 @@ const ADDON_IDS = ["gift-case", "extra-blade", "blade-plug"];
 export default function FrequentlyBoughtTogether({ product }: { product: Product }) {
   const add = useCart((s) => s.add);
   const hex = bladeHex(product.blade);
+  const mainSoldOut = !product.available;
 
   const addons = useMemo(
     () => ACCESSORIES.filter((a) => ADDON_IDS.includes(a.id)),
     []
   );
 
-  // Default: main + first two accessories selected
+  // Default: main + first two accessories selected. Skip main if sold out.
   const [selected, setSelected] = useState<Record<string, boolean>>({
-    main: true,
+    main: !mainSoldOut,
     [addons[0].id]: true,
     [addons[1].id]: true,
     [addons[2].id]: false,
@@ -57,7 +58,7 @@ export default function FrequentlyBoughtTogether({ product }: { product: Product
   const selectedCount = Object.values(selected).filter(Boolean).length;
 
   function addBundle() {
-    if (selected.main) {
+    if (selected.main && !mainSoldOut) {
       add({
         variantId: product.variantId ?? `handle:${product.handle}`,
         handle: product.handle,
@@ -107,26 +108,41 @@ export default function FrequentlyBoughtTogether({ product }: { product: Product
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {items.map((it) => {
               const on = selected[it.key];
+              const tileSoldOut = it.key === "main" && mainSoldOut;
               return (
                 <button
                   key={it.key}
-                  onClick={() => setSelected((s) => ({ ...s, [it.key]: !s[it.key] }))}
-                  className={`group relative flex flex-col rounded-lg border bg-(--color-ink) p-5 text-left transition ${
-                    on ? "border-(--color-amber)" : "border-(--color-hairline) opacity-65 hover:opacity-90"
+                  onClick={() => {
+                    if (tileSoldOut) return;
+                    setSelected((s) => ({ ...s, [it.key]: !s[it.key] }));
+                  }}
+                  disabled={tileSoldOut}
+                  className={`group relative flex flex-col rounded-lg border bg-(--color-ink) p-5 text-left transition disabled:cursor-not-allowed ${
+                    tileSoldOut
+                      ? "border-(--color-hairline) opacity-45"
+                      : on
+                      ? "border-(--color-amber)"
+                      : "border-(--color-hairline) opacity-65 hover:opacity-90"
                   }`}
                 >
                   {/* Toggle indicator */}
-                  <span
-                    className={`absolute right-3 top-3 grid size-5 place-items-center rounded-md border ${
-                      on ? "border-(--color-amber) bg-(--color-amber)" : "border-(--color-hairline-strong)"
-                    }`}
-                  >
-                    {on && (
-                      <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
-                        <path d="M3 8.5l3 3 7-7" stroke="#0A0E14" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    )}
-                  </span>
+                  {tileSoldOut ? (
+                    <span className="absolute right-3 top-3 rounded-full border border-(--color-hairline-strong) bg-(--color-ink-2) px-2 py-[3px] font-mono text-[9px] uppercase tracking-[0.18em] text-(--color-bone-soft)">
+                      Sold out
+                    </span>
+                  ) : (
+                    <span
+                      className={`absolute right-3 top-3 grid size-5 place-items-center rounded-md border ${
+                        on ? "border-(--color-amber) bg-(--color-amber)" : "border-(--color-hairline-strong)"
+                      }`}
+                    >
+                      {on && (
+                        <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
+                          <path d="M3 8.5l3 3 7-7" stroke="#0A0E14" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      )}
+                    </span>
+                  )}
 
                   <div className="relative mt-2 grid h-[110px] place-items-center">
                     {it.kind === "saber" ? (

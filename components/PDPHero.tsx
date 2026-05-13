@@ -158,7 +158,7 @@ export default function PDPHero({ product }: { product: Product }) {
                 href="#reviews"
                 className="text-(--color-bone-soft) underline-offset-2 hover:text-(--color-bone) hover:underline"
               >
-                4.9 based on 4,448 Reviews
+                4.9 based on 400+ Reviews
               </Link>
             </div>
           </div>
@@ -320,7 +320,7 @@ export default function PDPHero({ product }: { product: Product }) {
               </p>
             ) : (
               <p className="mt-3 text-center text-[11px] text-(--color-muted)">
-                Free 30-day returns · Lifetime blade replacement
+                Lifetime blade replacement
               </p>
             )}
           </div>

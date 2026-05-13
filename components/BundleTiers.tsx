@@ -11,6 +11,7 @@ export default function BundleTiers({ product }: { product: Product }) {
   const add = useCart((s) => s.add);
   const hex = bladeHex(product.blade);
   const p = product.price;
+  const soldOut = !product.available;
 
   // Currency-aware formatter that falls back to USD until the client has hydrated
   // (zustand persisted state is unavailable on first server render).
@@ -170,14 +171,17 @@ export default function BundleTiers({ product }: { product: Product }) {
 
               <button
                 onClick={t.onClick}
-                className={`mt-7 flex items-center justify-between border px-5 py-4 transition ${
+                disabled={soldOut}
+                className={`mt-7 flex items-center justify-between border px-5 py-4 transition disabled:cursor-not-allowed disabled:opacity-50 ${
                   t.emphasis
-                    ? "border-(--color-amber) bg-(--color-amber) text-(--color-ink) hover:bg-(--color-amber-soft)"
-                    : "border-(--color-hairline-strong) text-(--color-bone) hover:border-(--color-amber) hover:text-(--color-amber)"
+                    ? "border-(--color-amber) bg-(--color-amber) text-(--color-ink) hover:bg-(--color-amber-soft) disabled:hover:bg-(--color-amber)"
+                    : "border-(--color-hairline-strong) text-(--color-bone) hover:border-(--color-amber) hover:text-(--color-amber) disabled:hover:border-(--color-hairline-strong) disabled:hover:text-(--color-bone)"
                 }`}
               >
-                <span className="font-mono text-[11px] uppercase tracking-[0.22em]">{t.ctaLabel}</span>
-                <span className="font-display text-[20px]">→</span>
+                <span className="font-mono text-[11px] uppercase tracking-[0.22em]">
+                  {soldOut ? "Sold out" : t.ctaLabel}
+                </span>
+                <span className="font-display text-[20px]">{soldOut ? "·" : "→"}</span>
               </button>
             </article>
           ))}

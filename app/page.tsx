@@ -143,7 +143,6 @@ function HomeHero() {
               <span>USB-C charging</span><Dot />
               <span>Ten sound fonts</span><Dot />
               <span>Twelve colors</span><Dot />
-              <span>One-year warranty</span><Dot />
             </span>
           ))}
         </div>
@@ -324,7 +323,7 @@ function DurabilityBlock() {
   const cards = [
     { k: "01", t: "Built for the long fight", d: "Every blade ships with our reinforced DuraBlade wall. Heavy strikes, no cracking, no dimples." },
     { k: "02", t: "Lifetime blade replacement", d: "Crack a blade? Send a photo. We'll mail you a new one — once a year, on us." },
-    { k: "03", t: "Loved by 12,400+ duelists", d: "Rated 4.9★ across 2,800+ verified reviews. Read the long ones. Read the angry ones." },
+    { k: "03", t: "Loved by 12,400+ duelists", d: "Rated 4.9★ across 400+ verified reviews. Read the long ones. Read the angry ones." },
   ];
   return (
     <section className="px-5 py-24 md:px-8">

@@ -39,10 +39,10 @@ const REVIEWS: Review[] = [
   { name: "Alex A.",     flag: "🇺🇸", date: "02/02/2026", rating: 5, title: "Coolest thing I own.",       body: "Genuinely the coolest thing I own. This is the fourth pixel saber I've bought and the second one from Luna. Absolutely incredible. The way it looks and feels, the quality, the everything. The kyber-look pommel is insanely cool and the sound profiles are the best I've ever used. Would buy again tomorrow." },
   { name: "Marcus T.",   flag: "🇨🇦", date: "01/24/2026", rating: 5, title: "Worth every dollar.",        body: "Was deciding between three other brands. Picked Luna because of the lifetime blade thing. Six months in, I've dueled this saber easily a hundred times and it looks brand new. The hilt has real weight in the hand and the matte anodizing hasn't shown a scratch." },
   { name: "Sarah R.",    flag: "🇺🇸", date: "12/19/2025", rating: 5, title: "Perfect Christmas gift.",    body: "Got this for my fiancé who's been into Star Wars since he was eight. He cried a little. The packaging alone made me feel like I picked the right thing — foam-cut case, hand-stamped card, the whole bit." },
-  { name: "Devin K.",    flag: "🇬🇧", date: "11/03/2025", rating: 5, title: "Best in class.",             body: "I've owned three sabers from other brands. This is the first one where the hum actually sounds right and the colors don't look like a $20 toy. Charges fast, the app is sane, the LEDs are evenly bright top to bottom." },
+  { name: "Devin K.",    flag: "🇬🇧", date: "11/03/2025", rating: 5, title: "Best in class.",             body: "I've owned three sabers from other brands. This is the first one where the hum actually sounds right and the colors don't look like a $20 toy. Charges fast, button controls are dead simple, LEDs are evenly bright top to bottom." },
   { name: "Olivia P.",   flag: "🇦🇺", date: "10/14/2025", rating: 5, title: "Even better than I hoped.",  body: "I know nothing about lightsabers. The site explained everything I needed and the saber arrived in two days. My nephew said it was the best gift he's ever gotten — and I look like a hero." },
   { name: "Tariq S.",    flag: "🇩🇪", date: "09/28/2025", rating: 5, title: "Outstanding build.",         body: "Hilt machining is top-tier. The threading on the pommel is tight, the switch has no wobble, and the speaker is louder than I expected. Spent an hour just turning it on and off." },
-  { name: "Priya N.",    flag: "🇮🇳", date: "09/02/2025", rating: 4, title: "Great, with one note.",      body: "Love it overall. Knocked one star off because the app was a little fiddly to pair with my phone the first time. Once paired it's been rock solid. Saber itself is incredible." },
+  { name: "Priya N.",    flag: "🇮🇳", date: "09/02/2025", rating: 4, title: "Great, with one note.",      body: "Love it overall. Knocked one star off because the button gestures took me a few sessions to memorize — there's a learning curve for the color and font switches. Once you've got it, it's intuitive. Saber itself is incredible." },
   { name: "Connor B.",   flag: "🇮🇪", date: "08/19/2025", rating: 5, title: "My third saber from Luna.",  body: "I keep coming back. Every model I've owned has held up to heavy use. Lifetime blade replacement is real — they sent me a new blade after six months with no questions when one cracked at a meetup." },
   { name: "Hannah W.",   flag: "🇨🇦", date: "07/30/2025", rating: 5, title: "Came in perfect shape.",     body: "Box was exactly as pictured, hilt was wrapped, blade was protected. Charged in about an hour and fired up first try. Beautiful product." },
   { name: "Jonas R.",    flag: "🇩🇰", date: "07/12/2025", rating: 5, title: "Excellent quality control.", body: "Inspected every part of the hilt before lighting it up. Clean machining, even anodizing, no loose components. The pommel kyber-look detail is even better in person." },
@@ -60,13 +60,13 @@ const QUESTIONS: Question[] = [
   { name: "Jordan",  date: "02/14/2026", question: "Can I duel with this saber out of the box, or do I need a different blade?",
     answer: "You can duel with it as shipped. Every saber comes with a 3mm dueling-grade polycarbonate blade — the combat-rated default. No upgrade needed unless you want a longer or shorter length.", answeredBy: "Luna Support", answeredAt: "02/14/2026" },
   { name: "Sam",     date: "02/09/2026", question: "How long does the battery last on a single charge?",
-    answer: "Roughly 5 hours of active use, longer if you drop the brightness in the app. Charges from empty in about 90 minutes via USB-C.", answeredBy: "Luna Support", answeredAt: "02/09/2026" },
+    answer: "Roughly 5 hours of active use, longer at a lower brightness level. Charges from empty in about 90 minutes via USB-C.", answeredBy: "Luna Support", answeredAt: "02/09/2026" },
   { name: "Rachel",  date: "01/30/2026", question: "Is this safe for a 10-year-old to use?",
     answer: "We recommend ages 12+ for full duels and unsupervised use. Younger kids love the lights and sounds and can hold it safely — just supervise the swinging. The hilt has real weight, so two-handed grip works best for smaller hands.", answeredBy: "Luna Support", answeredAt: "01/30/2026" },
   { name: "Kai",     date: "01/22/2026", question: "How does the lifetime blade replacement work?",
     answer: "If your blade ever cracks, send a photo to hello@lunablades.com and we'll mail a replacement. Once per year, on us. No questions about how it broke.", answeredBy: "Luna Support", answeredAt: "01/22/2026" },
   { name: "Priya",   date: "01/15/2026", question: "Are the sound fonts customizable?",
-    answer: "Yes. Ten ship pre-loaded, and you can sideload your own through the Luna app — drag-and-drop a .wav set into a profile slot. We host a small community library of fan-made fonts in the app.", answeredBy: "Luna Support", answeredAt: "01/15/2026" },
+    answer: "Yes. Ten ship pre-loaded, and you can sideload your own over USB-C — drag-and-drop a .wav set into the saber's profile folder when it's plugged into your computer. We host a small community library of fan-made fonts on our site.", answeredBy: "Luna Support", answeredAt: "01/15/2026" },
   { name: "Marcus",  date: "01/08/2026", question: "Will this ship to Australia?",
     answer: "Yes. Free shipping over $99 to almost everywhere — Australia included. Delivery is usually 5–9 business days from when it leaves our Long Beach workshop.", answeredBy: "Luna Support", answeredAt: "01/08/2026" },
   { name: "Olivia",  date: "12/29/2025", question: "Can two of us duel with sabers from this collection?",
@@ -77,8 +77,8 @@ const QUESTIONS: Question[] = [
     answer: "Yes — at checkout, tick \"Gift wrap\" and we'll seal the case in matte black wrap with a Luna ribbon. Free over $99, $9 below.", answeredBy: "Luna Support", answeredAt: "11/30/2025" },
   { name: "Brandon", date: "11/18/2025", question: "Can I replace the battery myself?",
     answer: "Yes. The 18650 cell is held in a tray under the threaded pommel — unscrew, swap, screw it back in. We sell replacement cells for $14 if you ever need one.", answeredBy: "Luna Support", answeredAt: "11/18/2025" },
-  { name: "Naomi",   date: "11/02/2025", question: "How do I change the blade color from my phone?",
-    answer: "Open the Luna app → tap the saber's name → tap Color → pick a preset or open the full RGB picker. Holds the new color across reboots.", answeredBy: "Luna Support", answeredAt: "11/02/2025" },
+  { name: "Naomi",   date: "11/02/2025", question: "How do I change the blade color?",
+    answer: "Press and hold the main button for two seconds to enter color-change mode, then tap to cycle through the twelve presets. Release to lock it in — the new color holds across reboots.", answeredBy: "Luna Support", answeredAt: "11/02/2025" },
   { name: "Felix",   date: "10/19/2025", question: "Is the hilt scratch-resistant?",
     answer: "The matte black anodizing is hard but not invincible. Heavy contact with another saber will leave faint marks over time. The brass choke point patinas naturally — owners tend to like that.", answeredBy: "Luna Support", answeredAt: "10/19/2025" },
 ];
@@ -137,7 +137,7 @@ export default function ReviewsBoard() {
               </span>
             </div>
             <p className="mt-1 text-[13px] text-(--color-bone-soft) md:text-right">
-              Based on {SUMMARY.total} reviews
+              Based on 400+ reviews
             </p>
           </a>
 
@@ -312,7 +312,7 @@ export default function ReviewsBoard() {
                   : "text-(--color-bone-soft) hover:text-(--color-bone)"
               }`}
             >
-              Reviews ({filtered.length})
+              Reviews (400+)
             </button>
             <button
               onClick={() => setTab("questions")}

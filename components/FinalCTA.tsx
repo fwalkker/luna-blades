@@ -73,7 +73,7 @@ export default function FinalCTA({ product }: { product: Product }) {
         </div>
 
         <p className="mx-auto mt-10 max-w-[40ch] font-mono text-[10px] uppercase tracking-[0.24em] text-(--color-muted)">
-          Free shipping over $99 · 30-day returns · 1-year warranty
+          Free shipping over $99
         </p>
       </div>
     </section>

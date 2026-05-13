@@ -19,10 +19,6 @@ const FAQS = [
     q: "How fast is shipping?",
     a: "We ship from California, weekdays only. Most US orders arrive in 3–5 business days. Free shipping over $99, and we'll text you tracking the moment it leaves the building.",
   },
-  {
-    q: "What if it shows up and they don't love it?",
-    a: "Send it back within 30 days for a full refund — even if the case has been opened. We'd rather take it back than have it sit in a closet.",
-  },
 ];
 
 export default function FAQ() {
@@ -35,9 +31,6 @@ export default function FAQ() {
             What people<br />
             <span style={{ fontStyle: "italic", fontVariationSettings: '"opsz" 144, "SOFT" 100' }}>actually ask.</span>
           </h2>
-          <p className="mt-5 max-w-[28ch] text-[13px] text-(--color-muted)">
-            We answer every email within a day. If you're stuck deciding, just write to us — humans, not chatbots.
-          </p>
         </div>
 
         <div className="border-t border-(--color-hairline-strong)">

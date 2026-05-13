@@ -15,8 +15,8 @@ export default function StoryFeature() {
           Made in Long Beach
         </p>
         <h2 className="font-display mx-auto mt-5 max-w-[20ch] text-[44px] uppercase leading-[0.95] tracking-tight md:text-[64px]">
-          The saber the kid in you wanted —
-          <span className="block text-(--color-blue)">grown-up enough to keep.</span>
+          The saber you've always wanted
+          <span className="block text-(--color-blue)"></span>
         </h2>
         <p className="mx-auto mt-6 max-w-[52ch] text-[15px] leading-relaxed text-(--color-bone-soft) md:text-[17px]">
           Hand-finished hilts. Combat-rated blades. Real metal in the hand and

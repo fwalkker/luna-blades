@@ -59,7 +59,7 @@ function DescriptionPanel({ product }: { product: Product }) {
           The hilt is machined from a single billet of T6 aircraft aluminum, anodized in matte black, with a brass choke point that adds weight where you need it. The emitter is recessed and threaded — the blade locks in with a quarter-turn and won't loosen mid-strike.
         </p>
         <p>
-          Inside the hilt: a 3W hi-fi speaker, a motion sensor for clash and swing detection, an addressable LED strip running the full length of the blade, and a USB-C charge port hidden under the pommel. Twelve colors and ten sound fonts are configurable from the app.
+          Inside the hilt: a 3W hi-fi speaker, a motion sensor for clash and swing detection, an addressable LED strip running the full length of the blade, and a USB-C charge port hidden under the pommel. Twelve colors and ten sound fonts cycle from the hilt button — no app, no pairing.
         </p>
         <p>
           Ships in a foam-cut presentation case with a written quick-start. If you ever crack a blade, send us a photo — we'll mail you a replacement, on us.
@@ -116,11 +116,10 @@ function SpecsPanel({ hiltVariant }: { hiltVariant?: string }) {
 
 function ShippingPanel() {
   return (
-    <div className="grid gap-8 md:grid-cols-3">
+    <div className="grid gap-8 md:grid-cols-2">
       {[
         { h: "Free worldwide", b: "We pay shipping on every order over $99 — tracked and insured to most countries in 5–9 business days." },
         { h: "Ships in 48 hours", b: "Every order is hand-packed at our Long Beach workshop, weekdays only. You'll get a tracking link the moment it leaves." },
-        { h: "30-day returns", b: "Don't love it? Send it back, even if the case has been opened. Refund hits the same card within a week." },
       ].map((c) => (
         <article key={c.h} className="rounded-lg border border-(--color-hairline) bg-(--color-ink) p-6">
           <h3 className="font-display text-[18px] uppercase tracking-tight">{c.h}</h3>
@@ -145,7 +144,7 @@ function ReviewsPanel() {
             ))}
           </span>
         </div>
-        <span className="text-[13px] text-(--color-bone-soft)">based on 124 verified reviews</span>
+        <span className="text-[13px] text-(--color-bone-soft)">based on 400+ verified reviews</span>
       </div>
       <p className="mt-6 max-w-[60ch] text-[14px] text-(--color-muted)">
         Click the Reviews section further down the page to read the long ones.
