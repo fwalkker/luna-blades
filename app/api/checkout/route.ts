@@ -69,5 +69,13 @@ export async function POST(req: Request) {
     );
   }
 
-  return NextResponse.json({ checkoutUrl: cart.cartCreate.cart.checkoutUrl });
+  // Shopify's Storefront API still returns lunablades.com (the apex) as the
+  // checkout host even though shop.lunablades.com is primary — the apex is
+  // a Shopify-registered domain and stays in the connected-domains list.
+  // Rewrite to the host that actually resolves to Shopify's checkout.
+  const url = new URL(cart.cartCreate.cart.checkoutUrl);
+  if (url.hostname === "lunablades.com" || url.hostname === "www.lunablades.com") {
+    url.hostname = "shop.lunablades.com";
+  }
+  return NextResponse.json({ checkoutUrl: url.toString() });
 }
