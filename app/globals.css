@@ -120,14 +120,12 @@ body {
   position: relative;
 }
 
-/* Mobile: smaller tile + dark overlay so the starfield stops looking bright
-   and repetitive next to a narrow viewport. */
+/* Mobile: smaller tile size so the starfield doesn't look repetitive
+   on narrow viewports. No layered gradient — that forces extra
+   compositing on every scroll frame. */
 @media (max-width: 767px) {
   body {
     background-size: 900px 550px;
-    background-image:
-      linear-gradient(rgba(11, 12, 16, 0.55), rgba(11, 12, 16, 0.55)),
-      url("/stars.svg");
   }
 }
 
