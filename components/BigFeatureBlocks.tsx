@@ -5,7 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import { BIG_FEATURE_MEDIA } from "@/lib/placeholder-media";
 
 type Row = {
-  title: string;
+  titlePre: string;
+  titleAccent: string;
   body: string;
   highlight: string;
   badge: string;
@@ -18,7 +19,8 @@ type Row = {
 const ROWS: Row[] = [
   {
     badge: "01 · Combat",
-    title: "Built for real combat — tested to the limit",
+    titlePre: "Built for real combat — ",
+    titleAccent: "tested to the limit",
     body: "Every Luna hilt is engineered for full-contact dueling, not display. We stress-test each model under live strikes, drop loads, and even car tires before it ships.",
     highlight: "Real durability is earned, not claimed.",
     poster: BIG_FEATURE_MEDIA[0],
@@ -28,7 +30,8 @@ const ROWS: Row[] = [
   },
   {
     badge: "02 · Control",
-    title: "Designed for true control",
+    titlePre: "Designed for ",
+    titleAccent: "true control",
     body: "Our hilts fit naturally in the hand — balanced weight, recessed switch geometry, brass choke point. The grip stays steady through spins, flips, and dual-blade choreography.",
     highlight: "It feels like a tool, not a prop.",
     poster: BIG_FEATURE_MEDIA[1],
@@ -38,7 +41,8 @@ const ROWS: Row[] = [
   },
   {
     badge: "03 · Joy",
-    title: "A moment shared by millions",
+    titlePre: "A moment shared by ",
+    titleAccent: "millions",
     body: "More than a saber — it's a shared experience across the galaxy. Owners light them up at meetups, conventions, weddings, garage duels, and quiet nights at home.",
     highlight: "It's the toy you keep forever.",
     poster: BIG_FEATURE_MEDIA[2],
@@ -53,7 +57,7 @@ export default function BigFeatureBlocks() {
     <section className="border-t border-(--color-hairline) px-5 py-20 md:px-8 md:py-28">
       <div className="mx-auto max-w-[1230px] space-y-20 md:space-y-28">
         {ROWS.map((r, i) => (
-          <FeatureRow key={r.title} row={r} reversed={i % 2 === 1} />
+          <FeatureRow key={r.badge} row={r} reversed={i % 2 === 1} />
         ))}
       </div>
     </section>
@@ -72,7 +76,8 @@ function FeatureRow({ row, reversed }: { row: Row; reversed: boolean }) {
           {row.badge}
         </p>
         <h2 className="font-display mt-5 text-[40px] uppercase leading-[0.95] tracking-tight text-(--color-blue) md:text-[56px]">
-          {row.title}
+          {row.titlePre}
+          <span className="text-(--color-bone)">{row.titleAccent}</span>
         </h2>
         <span className="mt-5 block h-px w-[80%] max-w-[420px] bg-(--color-blue)/60" />
         <p className="mt-6 max-w-[44ch] text-[15px] leading-relaxed text-(--color-bone) md:text-[16px]">
