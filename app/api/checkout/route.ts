@@ -80,13 +80,13 @@ export async function POST(req: Request) {
     );
   }
 
-  // Shopify's Storefront API still returns lunablades.com (the apex) as the
-  // checkout host even though shop.lunablades.com is primary — the apex is
-  // a Shopify-registered domain and stays in the connected-domains list.
-  // Rewrite to the host that actually resolves to Shopify's checkout.
+  // Route checkout through Shopify's canonical .myshopify.com host.
+  // shop.lunablades.com 404s for cookieless first-time visitors because
+  // Shopify can't reconcile the cart token across the apex/subdomain
+  // boundary without an existing _shopify_y / _shopify_s session cookie.
+  // The .myshopify.com host has no cross-domain reconciliation step, so
+  // checkout works for every customer regardless of prior visits.
   const url = new URL(cart.cartCreate.cart.checkoutUrl);
-  if (url.hostname === "lunablades.com" || url.hostname === "www.lunablades.com") {
-    url.hostname = "shop.lunablades.com";
-  }
+  url.hostname = process.env.SHOPIFY_STORE_DOMAIN!;
   return NextResponse.json({ checkoutUrl: url.toString() });
 }
