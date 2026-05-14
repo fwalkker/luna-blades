@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import CartDrawer from "@/components/CartDrawer";
 import MetaPixel from "@/components/MetaPixel";
 import SaleStrip from "@/components/SaleStrip";
+import ShopifyCookiePrimer from "@/components/ShopifyCookiePrimer";
 
 export const metadata: Metadata = {
   title: "Luna Blades — Lightsabers, made for the people who love them",
@@ -50,6 +51,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <MetaPixel />
+        <ShopifyCookiePrimer />
         <div className="relative z-[2]">
           <SaleStrip />
           <Nav />

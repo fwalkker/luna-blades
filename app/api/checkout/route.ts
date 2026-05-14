@@ -80,13 +80,13 @@ export async function POST(req: Request) {
     );
   }
 
-  // Route checkout through Shopify's canonical .myshopify.com host.
-  // shop.lunablades.com 404s for cookieless first-time visitors because
-  // Shopify can't reconcile the cart token across the apex/subdomain
-  // boundary without an existing _shopify_y / _shopify_s session cookie.
-  // The .myshopify.com host has no cross-domain reconciliation step, so
-  // checkout works for every customer regardless of prior visits.
+  // Route checkout through shop.lunablades.com (the current primary host).
+  // ShopifyCookiePrimer in app/layout.tsx pre-fetches shop.lunablades.com on
+  // first page load so visitors arrive at the cart URL already carrying the
+  // _shopify_y cookie that Shopify needs to resolve the cart token.
   const url = new URL(cart.cartCreate.cart.checkoutUrl);
-  url.hostname = process.env.SHOPIFY_STORE_DOMAIN!;
+  if (url.hostname === "lunablades.com" || url.hostname === "www.lunablades.com") {
+    url.hostname = "shop.lunablades.com";
+  }
   return NextResponse.json({ checkoutUrl: url.toString() });
 }
