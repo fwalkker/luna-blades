@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useCart, cartSubtotal, type CartItem } from "@/lib/cart-store";
 import { getBundleDiscount } from "@/lib/bundle-tiers";
+import { primeShopifyCookie } from "@/lib/shopify-cookie-primer";
 import Price from "./Price";
 
 function CheckoutButton({ items, subtotal }: { items: CartItem[]; subtotal: number }) {
@@ -21,6 +22,12 @@ function CheckoutButton({ items, subtotal }: { items: CartItem[]; subtotal: numb
           num_items: items.reduce((s, i) => s + i.qty, 0),
         });
       }
+      // Race-proof: wait for the Shopify _shopify_y cookie to land before
+      // navigating to the cart URL. If the layout primer already completed
+      // this resolves instantly; otherwise it kicks off the image request
+      // inline and waits (max 2s) so we don't dump fast clickers onto a
+      // 404 at shop.lunablades.com/cart/c/{token}.
+      await primeShopifyCookie();
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
