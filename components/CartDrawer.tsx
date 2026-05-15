@@ -10,6 +10,20 @@ function CheckoutButton({ items, subtotal }: { items: CartItem[]; subtotal: numb
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // If the user hits Back from Shopify checkout, the browser restores this
+  // page from bfcache with React state intact — the spinner would otherwise
+  // stay up forever. Clear it on bfcache restore.
+  useEffect(() => {
+    const onPageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) {
+        setLoading(false);
+        setError(null);
+      }
+    };
+    window.addEventListener("pageshow", onPageShow);
+    return () => window.removeEventListener("pageshow", onPageShow);
+  }, []);
+
   async function go() {
     setLoading(true);
     setError(null);
