@@ -37,11 +37,16 @@ export async function shopifyFetch<T>(
     body: JSON.stringify({ query, variables }),
   };
 
-  if (opts.cache) {
+  // Mutations must bypass Next's Data Cache — identical request bodies (same
+  // cart lines) would otherwise collapse different visitors onto the same
+  // cartCreate response, handing one customer's checkout to another.
+  const isMutation = query.trimStart().startsWith("mutation");
+
+  if (isMutation) {
+    init.cache = "no-store";
+  } else if (opts.cache) {
     init.cache = opts.cache;
   } else if (process.env.NODE_ENV === "development") {
-    // In dev, always fetch fresh so Shopify backend changes show on next reload.
-    // Production uses tag-based cache + webhook revalidation.
     init.cache = "no-store";
   } else {
     init.next = {

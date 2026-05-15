@@ -5,7 +5,6 @@ import Footer from "@/components/Footer";
 import CartDrawer from "@/components/CartDrawer";
 import MetaPixel from "@/components/MetaPixel";
 import SaleStrip from "@/components/SaleStrip";
-import ShopifyCookiePrimer from "@/components/ShopifyCookiePrimer";
 
 export const metadata: Metadata = {
   title: "Luna Blades — Lightsabers, made for the people who love them",
@@ -39,7 +38,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Preconnect to Shopify CDN so product image requests start before HTML parsing finishes */}
         <link rel="preconnect" href="https://cdn.shopify.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://cdn.shopify.com" />
-        {/* Warm the TLS connection to Shopify checkout so click-to-checkout is faster */}
         <link rel="preconnect" href="https://shop.lunablades.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://shop.lunablades.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -51,7 +49,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <MetaPixel />
-        <ShopifyCookiePrimer />
         <div className="relative z-[2]">
           <SaleStrip />
           <Nav />
