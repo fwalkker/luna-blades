@@ -11,7 +11,7 @@ const MOBILE_LINKS = [
   { href: "/collections/originals", label: "Sabers" },
   { href: "/pages/operation-guides", label: "Guides" },
   { href: "/pages/brand", label: "Brand" },
-  { href: "/products/obi-se#reviews", label: "Reviews" },
+  { href: "/products/luna-obi-se#reviews", label: "Reviews" },
   { href: "/account", label: "Account" },
 ];
 
@@ -60,7 +60,7 @@ export default function Nav() {
           {/* RIGHT — utilities */}
           <div className="flex items-center justify-end gap-3 md:gap-4">
             <Link
-              href="/products/obi-se#reviews"
+              href="/products/luna-obi-se#reviews"
               className="hidden text-[11px] uppercase tracking-[0.22em] text-(--color-bone-soft) transition hover:text-(--color-bone) lg:inline"
             >
               Reviews

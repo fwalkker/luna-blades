@@ -60,7 +60,7 @@ export default function Footer() {
 
           <FooterCol title="Brand">
             <FooterLink href="/pages/brand">Our story</FooterLink>
-            <FooterLink href="/products/obi-se#reviews">Reviews</FooterLink>
+            <FooterLink href="/products/luna-obi-se#reviews">Reviews</FooterLink>
             <FooterLink href="/blogs/news">Journal</FooterLink>
             <FooterLink href="/pages/ambassador">Ambassador program</FooterLink>
           </FooterCol>
