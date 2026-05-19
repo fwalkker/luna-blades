@@ -4,6 +4,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import CartDrawer from "@/components/CartDrawer";
 import MetaPixel from "@/components/MetaPixel";
+import AnalyticsBootstrap from "@/components/AnalyticsBootstrap";
 import SaleStrip from "@/components/SaleStrip";
 
 export const metadata: Metadata = {
@@ -49,6 +50,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <MetaPixel />
+        <AnalyticsBootstrap />
         <div className="relative z-[2]">
           <SaleStrip />
           <Nav />

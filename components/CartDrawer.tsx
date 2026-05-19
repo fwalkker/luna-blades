@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useCart, cartSubtotal, type CartItem } from "@/lib/cart-store";
 import { getBundleDiscount } from "@/lib/bundle-tiers";
+import { trackInitiateCheckout } from "@/lib/analytics";
 import Price from "./Price";
 
 function CheckoutButton({ items, subtotal }: { items: CartItem[]; subtotal: number }) {
@@ -28,13 +29,10 @@ function CheckoutButton({ items, subtotal }: { items: CartItem[]; subtotal: numb
     setLoading(true);
     setError(null);
     try {
-      if (typeof window !== "undefined" && (window as any).fbq) {
-        (window as any).fbq("track", "InitiateCheckout", {
-          value: subtotal,
-          currency: "USD",
-          num_items: items.reduce((s, i) => s + i.qty, 0),
-        });
-      }
+      trackInitiateCheckout({
+        items: items.map((i) => ({ handle: i.handle, qty: i.qty })),
+        value: subtotal,
+      });
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

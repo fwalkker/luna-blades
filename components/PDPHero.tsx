@@ -7,6 +7,7 @@ import type { Product, Variant } from "@/lib/products";
 import { bladeHex, SPECS } from "@/lib/products";
 import { useCart } from "@/lib/cart-store";
 import { QTY_TIERS, getBundleDiscount } from "@/lib/bundle-tiers";
+import { trackProductView, trackAddToCart } from "@/lib/analytics";
 import MediaModal from "./MediaModal";
 import Price from "./Price";
 
@@ -69,15 +70,7 @@ export default function PDPHero({ product }: { product: Product }) {
   const finalTotal = Math.max(0, baseTotal - bundleDiscount);
 
   useEffect(() => {
-    if (typeof window !== "undefined" && (window as any).fbq) {
-      (window as any).fbq("track", "ViewContent", {
-        content_ids: [product.handle],
-        content_name: product.title,
-        content_type: "product",
-        value: price,
-        currency: "USD",
-      });
-    }
+    trackProductView({ handle: product.handle, title: product.title, price });
   }, [product.handle, product.title, price]);
 
   useEffect(() => {
@@ -111,14 +104,7 @@ export default function PDPHero({ product }: { product: Product }) {
       qty,
     });
     openCart();
-    if (typeof window !== "undefined" && (window as any).fbq) {
-      (window as any).fbq("track", "AddToCart", {
-        content_ids: [product.handle],
-        content_name: product.title,
-        value: price * qty,
-        currency: "USD",
-      });
-    }
+    trackAddToCart({ handle: product.handle, title: product.title, price, qty });
   }
 
   return (
