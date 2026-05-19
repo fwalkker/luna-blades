@@ -42,12 +42,6 @@ type ProductEventInput = {
   productGid?: string;
 };
 
-type CartEventInput = {
-  items: { handle: string; qty: number }[];
-  value: number;
-  currency?: string;
-};
-
 function uuid(): string {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
     return crypto.randomUUID();
@@ -175,17 +169,3 @@ export function trackAddToCart(p: ProductEventInput & { qty: number }) {
   );
 }
 
-export function trackInitiateCheckout(c: CartEventInput) {
-  if (typeof window === "undefined") return;
-  const event_id = uuid();
-  const params = {
-    value: c.value,
-    currency: c.currency ?? "USD",
-    num_items: c.items.reduce((s, i) => s + i.qty, 0),
-    content_ids: c.items.map((i) => i.handle),
-  };
-  fbqTrack("InitiateCheckout", params, event_id);
-  sendCapi("InitiateCheckout", event_id, params);
-  // Shopify fires checkout_started natively on shop.lunablades.com — no need
-  // to send it from here.
-}

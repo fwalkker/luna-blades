@@ -4,10 +4,9 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useCart, cartSubtotal, type CartItem } from "@/lib/cart-store";
 import { getBundleDiscount } from "@/lib/bundle-tiers";
-import { trackInitiateCheckout } from "@/lib/analytics";
 import Price from "./Price";
 
-function CheckoutButton({ items, subtotal }: { items: CartItem[]; subtotal: number }) {
+function CheckoutButton({ items }: { items: CartItem[] }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -29,10 +28,6 @@ function CheckoutButton({ items, subtotal }: { items: CartItem[]; subtotal: numb
     setLoading(true);
     setError(null);
     try {
-      trackInitiateCheckout({
-        items: items.map((i) => ({ handle: i.handle, qty: i.qty })),
-        value: subtotal,
-      });
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -238,7 +233,7 @@ export default function CartDrawer() {
             <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.22em] text-(--color-muted-2)">
               Shipping &amp; tax calculated at checkout
             </p>
-            <CheckoutButton items={items} subtotal={total} />
+            <CheckoutButton items={items} />
           </footer>
         )}
       </aside>
