@@ -22,6 +22,11 @@ import {
 
 const SHOP_ID = process.env.NEXT_PUBLIC_SHOPIFY_SHOP_ID;
 const SHOP_GID = SHOP_ID ? `gid://shopify/Shop/${SHOP_ID}` : "";
+// Headless storefront ID from Shopify Admin → Sales channels → Headless.
+// Without this, hydrogen-react sends hydrogenSubchannelId="0" and Shopify
+// Analytics drops storefront sessions into an unattributed bucket that the
+// Admin dashboard doesn't surface.
+const STOREFRONT_ID = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ID;
 const CHECKOUT_DOMAIN = "shop.lunablades.com";
 const DEFAULT_CURRENCY = "CAD";
 
@@ -86,6 +91,7 @@ function shopifyBase() {
     ...getClientBrowserParameters(),
     hasUserConsent: true,
     shopId: SHOP_GID,
+    storefrontId: STOREFRONT_ID,
     currency: DEFAULT_CURRENCY,
     shopifySalesChannel: ShopifySalesChannel.headless,
   } as const;
