@@ -7,3 +7,4 @@ trash/
 *.tsbuildinfo
 .claude/
 public/videos/_originals/
+.env.local

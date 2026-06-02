@@ -6,6 +6,7 @@ import {
   AnalyticsEventName,
   ShopifySalesChannel,
 } from "@shopify/hydrogen-react";
+import posthog from "posthog-js";
 
 /**
  * Storefront analytics — Meta Pixel (browser) + Meta CAPI (server mirror) +
@@ -37,6 +38,7 @@ type FbqWindow = Window & {
     params?: Record<string, unknown>,
     extra?: { eventID: string }
   ) => void;
+  gtag?: (...args: unknown[]) => void;
 };
 
 type ProductEventInput = {
@@ -86,6 +88,12 @@ function fbqTrack(event: string, params: Record<string, unknown>, event_id: stri
   w.fbq("track", event, params, { eventID: event_id });
 }
 
+function gtagTrack(event: string, params: Record<string, unknown>) {
+  const w = window as FbqWindow;
+  if (!w.gtag) return;
+  w.gtag("event", event, params);
+}
+
 function shopifyBase() {
   return {
     ...getClientBrowserParameters(),
@@ -93,7 +101,10 @@ function shopifyBase() {
     shopId: SHOP_GID,
     storefrontId: STOREFRONT_ID,
     currency: DEFAULT_CURRENCY,
-    shopifySalesChannel: ShopifySalesChannel.headless,
+    // Per Shopify community feedback, `hydrogen` is the channel type that
+    // actually routes events into Admin Analytics — `headless` accepts the
+    // monorail POST but the events don't surface in Live View or reports.
+    shopifySalesChannel: ShopifySalesChannel.hydrogen,
   } as const;
 }
 
@@ -112,15 +123,27 @@ export function trackPageView() {
 export function trackProductView(p: ProductEventInput) {
   if (typeof window === "undefined") return;
   const event_id = uuid();
+  const currency = p.currency ?? "USD";
   const params = {
     content_ids: [p.handle],
     content_name: p.title,
     content_type: "product",
     value: p.price,
-    currency: p.currency ?? "USD",
+    currency,
   };
   fbqTrack("ViewContent", params, event_id);
   sendCapi("ViewContent", event_id, params);
+  gtagTrack("view_item", {
+    currency,
+    value: p.price,
+    items: [{ item_id: p.handle, item_name: p.title, price: p.price, quantity: 1 }],
+  });
+  posthog.capture("product_viewed", {
+    product_handle: p.handle,
+    product_name: p.title,
+    price: p.price,
+    currency,
+  });
   if (!SHOP_ID) return;
   sendShopifyAnalytics(
     {
@@ -145,14 +168,29 @@ export function trackProductView(p: ProductEventInput) {
 export function trackAddToCart(p: ProductEventInput & { qty: number }) {
   if (typeof window === "undefined") return;
   const event_id = uuid();
+  const currency = p.currency ?? "USD";
+  const value = p.price * p.qty;
   const params = {
     content_ids: [p.handle],
     content_name: p.title,
-    value: p.price * p.qty,
-    currency: p.currency ?? "USD",
+    value,
+    currency,
   };
   fbqTrack("AddToCart", params, event_id);
   sendCapi("AddToCart", event_id, params);
+  gtagTrack("add_to_cart", {
+    currency,
+    value,
+    items: [{ item_id: p.handle, item_name: p.title, price: p.price, quantity: p.qty }],
+  });
+  posthog.capture("product_added_to_cart", {
+    product_handle: p.handle,
+    product_name: p.title,
+    price: p.price,
+    quantity: p.qty,
+    value,
+    currency,
+  });
   if (!SHOP_ID) return;
   sendShopifyAnalytics(
     {

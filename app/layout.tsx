@@ -4,8 +4,10 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import CartDrawer from "@/components/CartDrawer";
 import MetaPixel from "@/components/MetaPixel";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 import AnalyticsBootstrap from "@/components/AnalyticsBootstrap";
 import SaleStrip from "@/components/SaleStrip";
+import PostHogProvider from "@/components/PostHogProvider";
 
 export const metadata: Metadata = {
   title: "Luna Blades — Lightsabers, made for the people who love them",
@@ -49,15 +51,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
-        <MetaPixel />
-        <AnalyticsBootstrap />
-        <div className="relative z-[2]">
-          <SaleStrip />
-          <Nav />
-          <main>{children}</main>
-          <Footer />
-        </div>
-        <CartDrawer />
+        <PostHogProvider>
+          <MetaPixel />
+          <GoogleAnalytics />
+          <AnalyticsBootstrap />
+          <div className="relative z-[2]">
+            <SaleStrip />
+            <Nav />
+            <main>{children}</main>
+            <Footer />
+          </div>
+          <CartDrawer />
+        </PostHogProvider>
       </body>
     </html>
   );

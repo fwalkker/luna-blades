@@ -12,6 +12,7 @@
   "dependencies": {
     "@shopify/hydrogen-react": "^2026.4.2",
     "next": "^15.1.4",
+    "posthog-js": "^1.378.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "zustand": "^5.0.2"
