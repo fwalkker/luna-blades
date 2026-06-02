@@ -12,6 +12,7 @@ type EventBody = {
   custom_data?: Record<string, unknown>;
   fbp?: string;
   fbc?: string;
+  external_id?: string;
   user_data?: { email?: string; phone?: string };
 };
 
@@ -41,6 +42,7 @@ export async function POST(req: Request) {
   };
   if (body.fbp) user_data.fbp = body.fbp;
   if (body.fbc) user_data.fbc = body.fbc;
+  if (body.external_id) user_data.external_id = [sha256(body.external_id)];
   if (body.user_data?.email) user_data.em = [sha256(body.user_data.email)];
   if (body.user_data?.phone) user_data.ph = [sha256(body.user_data.phone.replace(/\D/g, ""))];
 

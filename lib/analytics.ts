@@ -62,9 +62,24 @@ function readCookie(name: string): string | undefined {
   return match ? decodeURIComponent(match[1]) : undefined;
 }
 
+/**
+ * Stable per-visitor ID stored in a first-party cookie. Sent to CAPI as
+ * external_id so Meta can thread events when _fbp/_fbc are blocked
+ * (iOS Private Relay, Brave, uBlock). Cookie is scoped to .lunablades.com
+ * so checkout pages also see it; 2-year expiry; Secure; SameSite=Lax.
+ */
+function ensureVisitorId(): string {
+  if (typeof document === "undefined") return "";
+  const existing = readCookie("_lb_uid");
+  if (existing) return existing;
+  const id = uuid();
+  document.cookie = `_lb_uid=${id}; Path=/; Domain=.lunablades.com; Max-Age=63072000; Secure; SameSite=Lax`;
+  return id;
+}
+
 async function sendCapi(event_name: string, event_id: string, custom_data: Record<string, unknown>) {
   try {
-    await fetch("/api/meta/event", {
+    const res = await fetch("/api/meta/event", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       keepalive: true,
@@ -75,10 +90,14 @@ async function sendCapi(event_name: string, event_id: string, custom_data: Recor
         custom_data,
         fbp: readCookie("_fbp"),
         fbc: readCookie("_fbc"),
+        external_id: ensureVisitorId(),
       }),
     });
-  } catch {
-    // CAPI failures are not user-visible; the browser pixel still fired.
+    if (!res.ok) {
+      console.warn("[meta capi]", event_name, res.status, await res.text());
+    }
+  } catch (e) {
+    console.warn("[meta capi]", event_name, e);
   }
 }
 
