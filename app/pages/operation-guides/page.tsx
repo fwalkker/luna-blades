@@ -54,7 +54,7 @@ export default function GuidesPage() {
           {GUIDES.map((g, i) => (
             <Link
               key={g.slug}
-              href={`/pages/operation-guides/${g.slug}`}
+              href="/pages/contact"
               className="group relative flex flex-col rounded-lg border border-(--color-hairline) bg-(--color-ink-2) p-7 transition hover:border-(--color-hairline-strong) md:p-10"
             >
               <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-(--color-muted)">
@@ -63,7 +63,7 @@ export default function GuidesPage() {
               <h2 className="font-display mt-5 text-[24px] uppercase tracking-tight md:text-[30px]">{g.name}</h2>
               <p className="mt-4 max-w-[40ch] text-[14px] leading-relaxed text-(--color-bone-soft)">{g.blurb}</p>
               <span className="mt-6 inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.22em] text-(--color-blue) transition group-hover:gap-3">
-                Read the manual <span>→</span>
+                Ask us about it <span>→</span>
               </span>
             </Link>
           ))}
