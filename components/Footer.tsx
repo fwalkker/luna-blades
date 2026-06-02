@@ -23,26 +23,6 @@ export default function Footer() {
             <p className="mt-5 max-w-[34ch] text-[14px] leading-relaxed text-(--color-bone-soft)">
               Honest lightsabers built for the people who actually wanted one as a kid — and for the people who love them now.
             </p>
-            <div className="mt-6 flex items-center gap-4">
-              <a href="#" aria-label="Instagram" className="text-(--color-bone-soft) transition hover:text-(--color-bone)">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <rect x="3" y="3" width="18" height="18" rx="5" />
-                  <circle cx="12" cy="12" r="4" />
-                  <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" />
-                </svg>
-              </a>
-              <a href="#" aria-label="YouTube" className="text-(--color-bone-soft) transition hover:text-(--color-bone)">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <rect x="2" y="5" width="20" height="14" rx="3" />
-                  <path d="M10 9.5v5l4.5-2.5L10 9.5Z" fill="currentColor" />
-                </svg>
-              </a>
-              <a href="#" aria-label="TikTok" className="text-(--color-bone-soft) transition hover:text-(--color-bone)">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M14 3v10.5a3.5 3.5 0 1 1-3.5-3.5h0V8a6 6 0 1 0 6 6V8.5a7 7 0 0 0 4 1.3V7a4 4 0 0 1-4-4h-2.5Z" />
-                </svg>
-              </a>
-            </div>
           </div>
 
           <FooterCol title="Shop">

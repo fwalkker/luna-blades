@@ -2,30 +2,6 @@ import Link from "next/link";
 
 export const metadata = { title: "Journal — Luna Blades" };
 
-const POSTS = [
-  {
-    slug: "what-is-a-pixel-saber",
-    title: "What is a pixel saber, really?",
-    blurb: "An honest explainer for anyone who's stared at a $400 listing and wondered what they were paying for.",
-    date: "March 2026",
-    minutes: 6,
-  },
-  {
-    slug: "duraBlade-vs-pixel",
-    title: "DuraBlade vs Pixel — which one's right for you?",
-    blurb: "Two electronics platforms. Different price tiers. Different reasons to pick each. Here's the simple version.",
-    date: "February 2026",
-    minutes: 4,
-  },
-  {
-    slug: "first-saber-checklist",
-    title: "The first-saber checklist (for gift-givers who don't know what to ask)",
-    blurb: "Six questions to answer before you buy. None of them require knowing anything about the franchise.",
-    date: "January 2026",
-    minutes: 5,
-  },
-];
-
 export default function JournalPage() {
   return (
     <article>
@@ -44,23 +20,17 @@ export default function JournalPage() {
 
       <section className="px-5 py-20 md:px-8">
         <div className="mx-auto max-w-[1230px]">
-          <div className="grid gap-px overflow-hidden rounded-lg border border-(--color-hairline) bg-(--color-hairline-strong) md:grid-cols-3">
-            {POSTS.map((p) => (
-              <Link
-                key={p.slug}
-                href={`/blogs/news/${p.slug}`}
-                className="group flex flex-col bg-(--color-ink-2) p-8 transition hover:bg-(--color-ink) md:p-10"
-              >
-                <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-(--color-blue)">
-                  {p.date} · {p.minutes} min
-                </span>
-                <h2 className="font-display mt-5 text-[22px] leading-[1.1] uppercase tracking-tight md:text-[26px]">{p.title}</h2>
-                <p className="mt-4 text-[14px] leading-relaxed text-(--color-bone-soft)">{p.blurb}</p>
-                <span className="mt-6 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] text-(--color-bone-soft) transition group-hover:gap-3 group-hover:text-(--color-bone)">
-                  Read article <span>→</span>
-                </span>
-              </Link>
-            ))}
+          <div className="rounded-lg border border-(--color-hairline) bg-(--color-ink-2) px-8 py-20 text-center md:py-28">
+            <p className="font-mono text-[11px] uppercase tracking-[0.24em] text-(--color-blue)">
+              Coming soon
+            </p>
+            <h2 className="font-display mx-auto mt-6 max-w-[22ch] text-[28px] uppercase leading-[1] tracking-tight md:text-[42px]">
+              First posts are being written.
+            </h2>
+            <p className="mx-auto mt-5 max-w-[44ch] text-[14px] leading-relaxed text-(--color-bone-soft) md:text-[15px]">
+              Buyer guides, electronics explainers, and behind-the-bench notes from the workshop. Drop us a line if there's something you'd like us to write about first.
+            </p>
+            <Link href="/pages/contact" className="btn btn-primary mt-9">Request a topic</Link>
           </div>
         </div>
       </section>

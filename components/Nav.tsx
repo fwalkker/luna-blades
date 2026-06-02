@@ -12,7 +12,6 @@ const MOBILE_LINKS = [
   { href: "/pages/operation-guides", label: "Guides" },
   { href: "/pages/brand", label: "Brand" },
   { href: "/products/luna-obi-se#reviews", label: "Reviews" },
-  { href: "/account", label: "Account" },
 ];
 
 export default function Nav() {
