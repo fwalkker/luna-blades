@@ -113,6 +113,15 @@ export function trackPageView() {
   const event_id = uuid();
   fbqTrack("PageView", {}, event_id);
   sendCapi("PageView", event_id, {});
+  // GA4 init runs with send_page_view:false so SPA route changes don't
+  // double-fire — every pageview (including the first) goes through here.
+  gtagTrack("page_view", {
+    page_path: window.location.pathname + window.location.search,
+    page_location: window.location.href,
+    page_title: document.title,
+  });
+  // PostHog $pageview is captured by PostHogPageView in PostHogProvider.tsx
+  // on pathname change, so we don't fire it here.
   if (!SHOP_ID) return;
   sendShopifyAnalytics(
     { eventName: AnalyticsEventName.PAGE_VIEW, payload: shopifyBase() },
