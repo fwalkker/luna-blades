@@ -53,8 +53,8 @@ export default function Footer() {
 
           <FooterCol title="Help">
             <FooterLink href="/pages/operation-guides">Operation guides</FooterLink>
-            <FooterLink href="/pages/shipping">Shipping</FooterLink>
-            <FooterLink href="/pages/track-order">Track order</FooterLink>
+            <FooterLink href="/pages/contact">Shipping</FooterLink>
+            <FooterLink href="/pages/contact">Track order</FooterLink>
             <FooterLink href="/pages/contact">Contact</FooterLink>
           </FooterCol>
 
@@ -62,7 +62,7 @@ export default function Footer() {
             <FooterLink href="/pages/brand">Our story</FooterLink>
             <FooterLink href="/products/luna-obi-se#reviews">Reviews</FooterLink>
             <FooterLink href="/blogs/news">Journal</FooterLink>
-            <FooterLink href="/pages/ambassador">Ambassador program</FooterLink>
+            <FooterLink href="/pages/contact">Ambassador program</FooterLink>
           </FooterCol>
         </div>
 

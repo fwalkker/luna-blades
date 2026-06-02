@@ -14,8 +14,7 @@ export default function BannerCTA() {
           Pick any second saber from the rack at checkout. The discount applies automatically.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <Link href="/collections/bundles" className="btn btn-primary">See bundles</Link>
-          <Link href="/" className="btn btn-outline">Browse all 13</Link>
+          <Link href="/" className="btn btn-primary">Browse all 13</Link>
         </div>
       </div>
     </section>
