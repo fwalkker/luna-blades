@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { BIG_FEATURE_MEDIA } from "@/lib/placeholder-media";
+import { useLazyVideo } from "@/lib/useLazyVideo";
 
 type Row = {
   titlePre: string;
@@ -95,6 +96,7 @@ function FeatureRow({ row, reversed }: { row: Row; reversed: boolean }) {
 }
 
 function VideoTile({ row }: { row: Row }) {
+  const { containerRef, shouldLoad } = useLazyVideo<HTMLDivElement>();
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [playing, setPlaying] = useState(true);
   const [muted, setMuted] = useState(true);
@@ -104,9 +106,9 @@ function VideoTile({ row }: { row: Row }) {
     const v = videoRef.current;
     if (!v) return;
     v.muted = muted;
-    if (playing) v.play().catch(() => {});
+    if (playing && shouldLoad) v.play().catch(() => {});
     else v.pause();
-  }, [playing, muted]);
+  }, [playing, muted, shouldLoad]);
 
   function togglePlay() {
     setPlaying((p) => !p);
@@ -119,6 +121,7 @@ function VideoTile({ row }: { row: Row }) {
 
   return (
     <div
+      ref={containerRef}
       onClick={togglePlay}
       className="group relative block aspect-[16/10] w-full cursor-pointer overflow-hidden rounded-lg border border-(--color-hairline) bg-(--color-ink-2)"
       role="button"
@@ -134,13 +137,13 @@ function VideoTile({ row }: { row: Row }) {
       {row.video ? (
         <video
           ref={videoRef}
-          src={row.video}
+          src={shouldLoad ? row.video : undefined}
           poster={row.poster}
           muted
           loop
           playsInline
           autoPlay
-          preload="metadata"
+          preload="none"
           className="absolute inset-0 h-full w-full object-cover"
         />
       ) : (

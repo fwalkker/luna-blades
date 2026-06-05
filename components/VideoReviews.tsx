@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { VIDEO_REVIEW_COVERS } from "@/lib/placeholder-media";
+import { useLazyVideo } from "@/lib/useLazyVideo";
 
 type Review = {
   cover: string;
@@ -52,6 +53,7 @@ export default function VideoReviews() {
 }
 
 function ReviewTile({ review }: { review: Review }) {
+  const { containerRef, shouldLoad } = useLazyVideo<HTMLDivElement>();
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [playing, setPlaying] = useState(true);
   const [muted, setMuted] = useState(true);
@@ -60,9 +62,9 @@ function ReviewTile({ review }: { review: Review }) {
     const v = videoRef.current;
     if (!v) return;
     v.muted = muted;
-    if (playing) v.play().catch(() => {});
+    if (playing && shouldLoad) v.play().catch(() => {});
     else v.pause();
-  }, [playing, muted]);
+  }, [playing, muted, shouldLoad]);
 
   function togglePlay() {
     if (review.video) setPlaying((p) => !p);
@@ -74,6 +76,7 @@ function ReviewTile({ review }: { review: Review }) {
 
   return (
     <div
+      ref={containerRef}
       onClick={togglePlay}
       role="button"
       tabIndex={0}
@@ -89,13 +92,13 @@ function ReviewTile({ review }: { review: Review }) {
       {review.video ? (
         <video
           ref={videoRef}
-          src={review.video}
+          src={shouldLoad ? review.video : undefined}
           poster={review.cover}
           muted
           loop
           playsInline
           autoPlay
-          preload="metadata"
+          preload="none"
           className="absolute inset-0 h-full w-full object-cover"
         />
       ) : (
