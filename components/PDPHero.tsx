@@ -4,20 +4,30 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Product, Variant } from "@/lib/products";
-import { bladeHex, SPECS } from "@/lib/products";
+import { bladeHex } from "@/lib/products";
 import { useCart } from "@/lib/cart-store";
 import { QTY_TIERS, getBundleDiscount } from "@/lib/bundle-tiers";
 import { trackProductView, trackAddToCart } from "@/lib/analytics";
 import MediaModal from "./MediaModal";
 import Price from "./Price";
 
-type TabKey = "details" | "specs" | "uses" | "care";
-
-const TABS: { key: TabKey; label: string }[] = [
-  { key: "details", label: "Details" },
-  { key: "specs", label: "Specs" },
-  { key: "uses", label: "Uses" },
-  { key: "care", label: "Care" },
+const BUYER_QUESTIONS: { q: string; a: string }[] = [
+  {
+    q: "Which version should I get?",
+    a: "For most people — and almost anyone buying for a kid — the Standard (Baselit) is the one. It lights up, makes the swing and clash sounds, and is the tougher of the two. The Xenopixel adds extra effects and more color options, aimed at serious collectors.",
+  },
+  {
+    q: "Can I change the blade color, or is it fixed?",
+    a: "You can change it. Cycle through 12 colors with the handle button — no app needed. The blade itself also detaches, so you can swap it or pack it into the case.",
+  },
+  {
+    q: "Is it ready to use out of the box?",
+    a: "Almost — there's one quick step. Slide the blade into the handle and tighten it with the included Allen key (all tools are in the box). Give it a charge and it's fully ready to go. No app, no extra parts, no batteries to buy.",
+  },
+  {
+    q: "How long is shipping?",
+    a: "We ship from California on weekdays. Most US orders arrive in 3–5 business days, with free shipping over $99. You'll get tracking by text the moment it leaves the building.",
+  },
 ];
 
 function findVariant(variants: Variant[], selected: Record<string, string>): Variant | undefined {
@@ -30,6 +40,15 @@ function defaultSelection(product: Product): Record<string, string> {
   const out: Record<string, string> = {};
   for (const opt of product.options) out[opt.name] = opt.values[0];
   return out;
+}
+
+// Short reassurance line under a version/internals option button. Keyed on the
+// variant VALUE (not a hardcoded label) so it survives a rename in Shopify
+// e.g. "DuraBlade" → "Standard (Baselit)", "Xenopixel" → "Premium (Xenopixel)".
+function versionBlurb(value: string): string | null {
+  if (/baselit|dura|standard/i.test(value)) return "Most versatile";
+  if (/xeno|premium/i.test(value)) return "For serious collectors";
+  return null;
 }
 
 function isDefaultTitleOnly(product: Product): boolean {
@@ -50,7 +69,6 @@ export default function PDPHero({ product }: { product: Product }) {
   const [zoomSrc, setZoomSrc] = useState<string | null>(null);
   const [selected, setSelected] = useState<Record<string, string>>(() => defaultSelection(product));
   const [qty, setQty] = useState<number>(1);
-  const [tab, setTab] = useState<TabKey>("details");
   const [showSticky, setShowSticky] = useState(false);
   const ctaRef = useRef<HTMLButtonElement>(null);
 
@@ -147,6 +165,13 @@ export default function PDPHero({ product }: { product: Product }) {
                 4.9 based on 400+ Reviews
               </Link>
             </div>
+            <p className="mt-4 flex items-start gap-2 text-[12px] leading-relaxed text-(--color-bone-soft)">
+              <span className="mt-[2px] text-(--color-blue)">▸</span>
+              <span>
+                Comes fully assembled in a foam-cut case with a USB-C charger. No batteries to
+                buy and is ready to light up the moment it arrives.
+              </span>
+            </p>
           </div>
 
           {/* CARD 1 — variant + qty + CTA */}
@@ -216,6 +241,11 @@ export default function PDPHero({ product }: { product: Product }) {
                               <p className="font-display text-[15px] uppercase tracking-tight text-(--color-bone) md:text-[16px]">
                                 {value}
                               </p>
+                              {versionBlurb(value) && (
+                                <p className="mt-0.5 text-[10px] uppercase tracking-[0.16em] text-(--color-blue)">
+                                  {versionBlurb(value)}
+                                </p>
+                              )}
                               {probePrice !== undefined && (
                                 <div className="mt-1 flex items-baseline gap-2">
                                   <Price
@@ -325,30 +355,31 @@ export default function PDPHero({ product }: { product: Product }) {
             )}
           </div>
 
-          {/* CARD 2 — inline tabs */}
-          <div className="rounded-lg border border-(--color-hairline-strong) bg-(--color-ink-2)">
-            <div className="grid grid-cols-4 border-b border-(--color-hairline)">
-              {TABS.map((t) => (
-                <button
-                  key={t.key}
-                  onClick={() => setTab(t.key)}
-                  className={`relative px-2 py-3 font-mono text-[11px] uppercase tracking-[0.22em] transition md:text-[12px] ${
-                    tab === t.key ? "text-(--color-bone)" : "text-(--color-muted) hover:text-(--color-bone-soft)"
-                  }`}
-                >
-                  {t.label}
-                  {tab === t.key && (
-                    <span className="absolute -bottom-px left-0 right-0 h-[2px] bg-(--color-blue)" />
-                  )}
-                </button>
-              ))}
-            </div>
-            <div className="px-5 py-5 md:px-6 md:py-6">
-              {tab === "details" && <DetailsPanel product={product} />}
-              {tab === "specs" && <SpecsPanel />}
-              {tab === "uses" && <UsesPanel />}
-              {tab === "care" && <CarePanel />}
-            </div>
+          {/* CARD 2 — common questions accordion */}
+          <div className="overflow-hidden rounded-lg border border-(--color-hairline-strong) bg-(--color-ink-2)">
+            {BUYER_QUESTIONS.map((qa, i) => (
+              <details
+                key={qa.q}
+                className={`group ${i > 0 ? "border-t border-(--color-hairline)" : ""}`}
+              >
+                <summary className="flex cursor-pointer items-center justify-between gap-4 px-5 py-4 text-(--color-bone) transition hover:text-(--color-blue) md:px-6">
+                  <span className="font-display text-[15px] uppercase tracking-tight md:text-[16px]">
+                    {qa.q}
+                  </span>
+                  <svg
+                    className="shrink-0 transition-transform duration-300 group-open:rotate-45"
+                    width="15"
+                    height="15"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M8 2v12M2 8h12" stroke="currentColor" strokeWidth="1.4" />
+                  </svg>
+                </summary>
+                <p className="px-5 pb-5 text-[13px] leading-relaxed text-(--color-bone-soft) md:px-6">
+                  {qa.a}
+                </p>
+              </details>
+            ))}
           </div>
         </div>
       </div>
@@ -428,76 +459,6 @@ export default function PDPHero({ product }: { product: Product }) {
         </div>
       </div>
     </section>
-  );
-}
-
-/* ============== Inline tab panels ============== */
-
-function DetailsPanel({ product }: { product: Product }) {
-  return (
-    <div className="space-y-3 text-[13px] leading-relaxed text-(--color-bone-soft)">
-      {product.story ? (
-        product.story.split(/\r?\n\r?\n/).map((para, i) => (
-          <p key={i}>{para}</p>
-        ))
-      ) : (
-        <p>No description yet — add one in Shopify admin.</p>
-      )}
-    </div>
-  );
-}
-
-function SpecsPanel() {
-  return (
-    <dl className="space-y-2.5 text-[13px]">
-      {SPECS.map((r) => (
-        <div key={r.label} className="grid grid-cols-[110px_1fr] gap-3 border-b border-(--color-hairline) pb-2.5">
-          <dt className="font-mono text-[11px] uppercase tracking-[0.18em] text-(--color-muted)">
-            {r.label}
-          </dt>
-          <dd className="text-(--color-bone-soft)">{r.value}</dd>
-        </div>
-      ))}
-    </dl>
-  );
-}
-
-function UsesPanel() {
-  return (
-    <ul className="space-y-3 text-[13px] leading-relaxed text-(--color-bone-soft)">
-      {[
-        ["Dueling", "Polycarbonate blades, clash-tuned audio. Take it to the park."],
-        ["Display", "Foam-cut case included. Mount the hilt, plug the blade port."],
-        ["Cosplay", "Twelve colors, motion sounds, instant ignite. Reads on camera."],
-        ["Gifting", "Ships sealed with a hand-stamped quick-start card."],
-      ].map(([h, b]) => (
-        <li key={h}>
-          <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-(--color-bone)">{h}</p>
-          <p className="mt-0.5">{b}</p>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-function CarePanel() {
-  return (
-    <div className="space-y-3 text-[13px] leading-relaxed text-(--color-bone-soft)">
-      <p>Built to be used — but a little care goes a long way.</p>
-      <ul className="space-y-2 pl-1">
-        {[
-          'Wipe blade and hilt with a microfiber cloth after dueling',
-          "Charge with the included USB-C cable, never overcharge overnight",
-          "Lifetime emitter swap — covered for the original buyer",
-          "Cracked a blade? Send a photo, we mail a replacement",
-        ].map((line) => (
-          <li key={line} className="flex items-baseline gap-2.5">
-            <span className="text-(--color-blue)">▸</span>
-            <span>{line}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
   );
 }
 

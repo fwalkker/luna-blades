@@ -21,9 +21,11 @@ export default function RelatedSabers({ related }: { related: Product[] }) {
               <span className="size-[6px] rounded-full bg-(--color-amber) transmit" />
               Plate ⁄ 06 — From the same forge
             </p>
-            <h2 className="h-display mt-3 text-[36px] leading-[0.95] md:text-[56px]">
-              Complete
-              <span className="block text-(--color-blue)">your collection.</span>
+            <h2 className="h-display mt-3 text-[30px] leading-[1.05] md:text-[44px]">
+              Not sure which to pick?
+              <span className="mt-2 block text-[18px] leading-snug text-(--color-blue) md:text-[22px]">
+                Most gift-buyers choose the Luna Obi-Wan Kenobi Lightsaber.
+              </span>
             </h2>
           </div>
           <Link

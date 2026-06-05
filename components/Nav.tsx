@@ -8,6 +8,7 @@ import CurrencyPicker from "./CurrencyPicker";
 
 const MOBILE_LINKS = [
   { href: "/", label: "Home" },
+  { href: "/pages/gift-guide", label: "New to lightsabers? Start here" },
   { href: "/collections/originals", label: "Sabers" },
   { href: "/pages/operation-guides", label: "Guides" },
   { href: "/pages/brand", label: "Brand" },
@@ -35,9 +36,10 @@ export default function Nav() {
       <nav className="sticky top-0 z-50 border-b border-(--color-hairline) bg-(--color-ink-2)">
         <div className="mx-auto grid h-[72px] max-w-[1230px] grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 md:h-[88px] md:gap-4 md:px-8">
           {/* LEFT — primary nav (desktop) / hamburger (mobile) */}
-          <div className="hidden items-center gap-7 md:flex">
+          <div className="hidden items-center gap-6 md:flex">
             <Link href="/" className="nav-link">Home</Link>
             <Link href="/collections/originals" className="nav-link">Sabers</Link>
+            <Link href="/pages/gift-guide" className="nav-link nav-link--accent">New to lightsabers?</Link>
             <Link href="/pages/operation-guides" className="nav-link">Guides</Link>
             <Link href="/pages/brand" className="nav-link">Brand</Link>
           </div>
@@ -92,6 +94,8 @@ export default function Nav() {
             transition: color .18s ease;
           }
           .nav-link:hover { color: var(--color-bone); }
+          .nav-link--accent { color: var(--color-blue); }
+          .nav-link--accent:hover { color: var(--color-blue-soft); }
         `}</style>
       </nav>
 

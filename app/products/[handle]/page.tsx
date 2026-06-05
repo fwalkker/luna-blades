@@ -34,7 +34,10 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
   const [product, allProducts] = await Promise.all([getProduct(handle), getAllProducts()]);
   if (!product) notFound();
 
-  const related = pickRelated(allProducts, product.handle, 4);
+  // Only surface in-stock sabers here — a grid of "Sold out" tiles is a dead end
+  // for a first-time buyer. Falls back to all products if nothing else is in stock.
+  const inStock = allProducts.filter((p) => p.available);
+  const related = pickRelated(inStock.length ? inStock : allProducts, product.handle, 4);
 
   return (
     <article>

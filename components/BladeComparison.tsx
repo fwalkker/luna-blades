@@ -1,5 +1,5 @@
 /**
- * Saber comparison — Disney prop vs Durablade (recommended) vs Xenopixel (premium FX).
+ * Saber comparison — Disney prop vs Baselit (recommended) vs Xenopixel (premium FX).
  */
 export default function BladeComparison() {
   return (
@@ -15,10 +15,14 @@ export default function BladeComparison() {
           </h2>
         </header>
 
+        <p className="mx-auto mt-8 max-w-[60ch] text-center text-[15px] leading-relaxed text-(--color-bone-soft)">
+          Buying for a kid? Get the <span className="text-(--color-blue)">Baselit ($129)</span>. It lights up, makes the swing and clash sounds, and is the tougher of the two. The Xenopixel is a premium upgrade with extra effects, aimed at collectors.
+        </p>
+
         <ComparisonTable />
 
-        <p className="mx-auto mt-8 max-w-[52ch] text-center text-[14px] leading-relaxed text-(--color-bone-soft)">
-          Not sure? Get the <span className="text-(--color-blue)">Durablade</span> — best value, built to last. Step up to Xenopixel when you want the full light show.
+        <p className="mx-auto mt-6 max-w-[60ch] text-center text-[12px] leading-relaxed text-(--color-muted)">
+          Disney sabers look the part, but aren't built to be swung or dropped.
         </p>
       </div>
     </section>
@@ -28,13 +32,13 @@ export default function BladeComparison() {
 type Mark = "yes" | "no" | "partial";
 
 const COMPARISON_ROWS: { title: string; sub: string; disney: Mark; durablade: Mark; xenopixel: Mark }[] = [
-  { title: "Real metal hilt",              sub: "Aircraft aluminum, anodized",          disney: "no",      durablade: "yes",     xenopixel: "yes" },
-  { title: "Combat-rated blade",           sub: "3mm polycarbonate, riot-shield grade", disney: "no",      durablade: "yes",     xenopixel: "yes" },
-  { title: "Survives heavy duels",         sub: "No fragile electronics in the blade",  disney: "yes",     durablade: "yes",     xenopixel: "partial" },
-  { title: "Per-pixel light show",         sub: "Bolts, fire, scroll, unstable",        disney: "no",      durablade: "no",      xenopixel: "yes" },
-  { title: "34 FX modes + full RGB",       sub: "Scriptable color, animated effects",   disney: "no",      durablade: "no",      xenopixel: "yes" },
-  { title: "All-day battery (6 hr+)",      sub: "USB-C, fast recharge",                 disney: "no",      durablade: "yes",     xenopixel: "partial" },
-  { title: "Hi-fi sound + clash detect",   sub: "3W speaker, 10 motion-reactive fonts", disney: "partial", durablade: "yes",     xenopixel: "yes" },
+  { title: "Real metal hilt",                          sub: "Aircraft aluminum, anodized",                                          disney: "no",      durablade: "yes",     xenopixel: "yes" },
+  { title: "Tough, dueling-grade blade",               sub: "3mm polycarbonate, the same material used in police riot shields",     disney: "no",      durablade: "yes",     xenopixel: "yes" },
+  { title: "Survives heavy duels",                     sub: "No fragile electronics in the blade",                                  disney: "yes",     durablade: "yes",     xenopixel: "partial" },
+  { title: "Special blade effects",                    sub: "flickering, color-shifting, and animated lighting",                    disney: "no",      durablade: "no",      xenopixel: "yes" },
+  { title: "34 effect modes and any color you want",   sub: "",                                                                     disney: "no",      durablade: "no",      xenopixel: "yes" },
+  { title: "All-day battery (6 hr+)",                  sub: "USB-C, fast recharge",                                                 disney: "no",      durablade: "yes",     xenopixel: "partial" },
+  { title: "Realistic sound",                          sub: "hum, swing, and clash sounds that react as you move it (10 sound packs)", disney: "partial", durablade: "yes",     xenopixel: "yes" },
 ];
 
 function ComparisonTable() {
@@ -45,10 +49,10 @@ function ComparisonTable() {
         <div />
         <div className="px-2 py-4 text-center md:px-4">
           <p className="font-display text-[14px] tracking-tight text-(--color-bone) md:text-[16px]">Disney</p>
-          <p className="mt-1 font-mono text-[9px] uppercase tracking-[0.22em] text-(--color-muted)">Display prop</p>
+          <p className="mt-1 font-mono text-[9px] uppercase tracking-[0.22em] text-(--color-muted)">Display prop only</p>
         </div>
         <div className="bg-[rgba(35,90,151,0.18)] px-2 py-4 text-center md:px-4">
-          <p className="font-display text-[14px] tracking-tight text-(--color-bone) md:text-[16px]">Durablade</p>
+          <p className="font-display text-[14px] tracking-tight text-(--color-bone) md:text-[16px]">Baselit</p>
           <p className="mt-1 font-mono text-[9px] uppercase tracking-[0.22em] text-(--color-blue)" style={{ filter: "brightness(1.6)" }}>Recommended</p>
         </div>
         <div className="px-2 py-4 text-center md:px-4">
@@ -66,7 +70,7 @@ function ComparisonTable() {
         >
           <div className="px-4 py-4 md:px-6 md:py-5">
             <p className="text-[13px] font-semibold text-(--color-bone) md:text-[14px]">{row.title}</p>
-            <p className="mt-0.5 text-[11px] text-(--color-bone-soft) md:text-[12px]">{row.sub}</p>
+            {row.sub && <p className="mt-0.5 text-[11px] text-(--color-bone-soft) md:text-[12px]">{row.sub}</p>}
           </div>
           <div className="flex items-center justify-center px-2 py-4 md:py-5">
             <MarkIcon mark={row.disney} />

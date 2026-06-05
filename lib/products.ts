@@ -40,6 +40,22 @@ export type Product = {
   options: ProductOption[];
 };
 
+/**
+ * Saber catalog allowlist (website display only — does not touch Shopify).
+ * Only products whose handle is listed here render on the site; every other
+ * product is hidden from collections, related, FBT, the homepage, and 404s on
+ * its direct PDP URL. The products still exist in Shopify.
+ */
+const VISIBLE_HANDLES = new Set<string>([
+  "luna-sailor-moon-saber",
+  "luna-ani-iii-hero",
+  "luna-obi-se",
+]);
+
+function isVisible(handle: string): boolean {
+  return VISIBLE_HANDLES.has(handle);
+}
+
 const SHARED_SPECS = [
   { label: "Hilt", value: "T6 Aircraft Aluminum" },
   { label: "Blade", value: 'Polycarbonate, 36" × 7/8"' },
@@ -176,6 +192,7 @@ export async function getProduct(handle: string): Promise<Product | undefined> {
       { tags: [`product:${handle}`, "products"] }
     );
     if (!data.product) return undefined;
+    if (!isVisible(data.product.handle)) return undefined;
     return mapFullProduct(data.product);
   } catch (err) {
     console.error(`[getProduct(${handle})]`, err);
@@ -190,7 +207,9 @@ export async function getAllProducts(limit = 50): Promise<Product[]> {
       { first: limit, query: null },
       { tags: ["products"] }
     );
-    return data.products.edges.map((e) => mapSummary(e.node));
+    return data.products.edges
+      .map((e) => mapSummary(e.node))
+      .filter((p) => isVisible(p.handle));
   } catch (err) {
     console.error("[getAllProducts]", err);
     return [];

@@ -1,5 +1,9 @@
 const FAQS = [
   {
+    q: "Can my kid use it?",
+    a: "Yes. Recommended for ages 12+ for full duels. Younger kids love the lights and sounds and can hold it safely — just supervise the swinging.",
+  },
+  {
     q: "Is this a real metal saber, or a costume prop?",
     a: "Real metal. The hilt is T6 aircraft aluminum — the same alloy used in plane fuselages — machined and anodized in our shop. It has weight in the hand. The blade is dueling-grade polycarbonate, not the thin plastic you find on costume props.",
   },
@@ -8,12 +12,20 @@ const FAQS = [
     a: "It will take a hit. Polycarbonate is what police riot shields are made from. People duel with these for years. If you somehow break a blade, replacement blades are $25 and ship in 48h.",
   },
   {
+    q: "Can you turn the sound off?",
+    a: "Yes. The sound is adjustable and can be muted with the handle button, so it's fine for quieter homes.",
+  },
+  {
+    q: "Does it need batteries or charging before use?",
+    a: "It arrives charged and ready to light up. When it runs low, it recharges over USB-C in about 90 minutes — no disposable batteries needed.",
+  },
+  {
     q: "How does it charge? How long does it last?",
     a: "USB-C, fully recharges in about 90 minutes, runs ~5 hours of use on a charge. The battery is rated for 1,000+ cycles and is replaceable.",
   },
   {
-    q: "Can my kid use it?",
-    a: "Yes. Recommended for ages 12+ for full duels. Younger kids love the lights and sounds and can hold it safely — just supervise the swinging.",
+    q: "Will it arrive in time for a birthday or holiday?",
+    a: "We ship from California on weekdays; most US orders arrive in 3–5 business days. Order with a few days' buffer to be safe.",
   },
   {
     q: "How fast is shipping?",

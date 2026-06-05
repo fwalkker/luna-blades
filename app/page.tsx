@@ -9,7 +9,7 @@ import FAQ from "@/components/FAQ";
 export default async function HomePage() {
   const products = await getAllProducts();
   const hero =
-    products.find((p) => p.handle === "luna-kestis-cross-guard-saber") ?? products[0];
+    products.find((p) => p.handle === "luna-obi-se") ?? products[0];
   const featured = products.slice(0, 6);
 
   return (
