@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { getAllProducts, getProduct, pickRelated } from "@/lib/products";
 import PDPHero from "@/components/PDPHero";
-import FeatureTriplet from "@/components/FeatureTriplet";
+// import FeatureTriplet from "@/components/FeatureTriplet"; // hidden for now
 import BladeComparison from "@/components/BladeComparison";
 import VideoReviews from "@/components/VideoReviews";
 import BigFeatureBlocks from "@/components/BigFeatureBlocks";
@@ -44,7 +44,7 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
       <PDPHero product={product} />
       <BladeComparison />
       <VideoReviews />
-      <FeatureTriplet />
+      {/* <FeatureTriplet /> hidden for now */}
       <BigFeatureBlocks />
       <ReviewsBoard />
       <FAQ />
