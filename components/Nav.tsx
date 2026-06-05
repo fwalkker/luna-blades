@@ -8,9 +8,9 @@ import CurrencyPicker from "./CurrencyPicker";
 
 const MOBILE_LINKS = [
   { href: "/", label: "Home" },
-  { href: "/pages/gift-guide", label: "New to lightsabers? Start here" },
+  // { href: "/pages/gift-guide", label: "New to lightsabers? Start here" }, // hidden for now
   { href: "/collections/originals", label: "Sabers" },
-  { href: "/pages/operation-guides", label: "Guides" },
+  // { href: "/pages/operation-guides", label: "Guides" }, // hidden for now
   { href: "/pages/brand", label: "Brand" },
   { href: "/products/luna-obi-se#reviews", label: "Reviews" },
 ];
@@ -39,8 +39,10 @@ export default function Nav() {
           <div className="hidden items-center gap-6 md:flex">
             <Link href="/" className="nav-link">Home</Link>
             <Link href="/collections/originals" className="nav-link">Sabers</Link>
+            {/* hidden for now
             <Link href="/pages/gift-guide" className="nav-link nav-link--accent">New to lightsabers?</Link>
             <Link href="/pages/operation-guides" className="nav-link">Guides</Link>
+            */}
             <Link href="/pages/brand" className="nav-link">Brand</Link>
           </div>
           <button

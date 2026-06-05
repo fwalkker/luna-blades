@@ -32,7 +32,9 @@ export default function Footer() {
           </FooterCol>
 
           <FooterCol title="Help">
+            {/* hidden for now
             <FooterLink href="/pages/operation-guides">Operation guides</FooterLink>
+            */}
             <FooterLink href="/pages/contact">Shipping</FooterLink>
             <FooterLink href="/pages/contact">Track order</FooterLink>
             <FooterLink href="/pages/contact">Contact</FooterLink>
